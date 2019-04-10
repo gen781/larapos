@@ -9,10 +9,10 @@ export default {
 </script>
 
 <style>
-  // Import Font Awesome Icons Set
+  /* Import Font Awesome Icons Set */
   $fa-font-path: "~font-awesome/fonts/";
   @import "~font-awesome/css/font-awesome.min.css";
-  // Import Simple Line Icons Set
+  /* Import Simple Line Icons Set */
   $simple-line-font-path: "~simple-line-icons/fonts/";
   @import "~simple-line-icons/css/simple-line-icons.css";
 </style>
