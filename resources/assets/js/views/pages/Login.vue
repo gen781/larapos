@@ -10,8 +10,8 @@
                   <h1>Login</h1>
                   <p class="text-muted">Sign In to your account</p>
                   <div class="input-group mb-3">
-                    <span class="input-group-addon"><i class="icon-user"></i></span>
-                    <input type="text" class="form-control" placeholder="Username" v-model="email">
+                    <span class="input-group-addon"><i class="icon-envelope"></i></span>
+                    <input type="text" class="form-control" placeholder="Email" v-model="email">
                   </div>
                   <div class="input-group mb-4">
                     <span class="input-group-addon"><i class="icon-lock"></i></span>
