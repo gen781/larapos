@@ -5,26 +5,28 @@
         <div class="col-md-8">
           <div class="card-group mb-0">
             <div class="card p-4">
-              <div class="card-body">
-                <h1>Login</h1>
-                <p class="text-muted">Sign In to your account</p>
-                <div class="input-group mb-3">
-                  <span class="input-group-addon"><i class="icon-user"></i></span>
-                  <input type="text" class="form-control" placeholder="Username">
-                </div>
-                <div class="input-group mb-4">
-                  <span class="input-group-addon"><i class="icon-lock"></i></span>
-                  <input type="password" class="form-control" placeholder="Password">
-                </div>
-                <div class="row">
-                  <div class="col-6">
-                    <button type="button" class="btn btn-primary px-4">Login</button>
+              <form class="form-signin" v-on:submit.prevent="submitLogin">
+                <div class="card-body">
+                  <h1>Login</h1>
+                  <p class="text-muted">Sign In to your account</p>
+                  <div class="input-group mb-3">
+                    <span class="input-group-addon"><i class="icon-user"></i></span>
+                    <input type="text" class="form-control" placeholder="Username" v-model="email">
                   </div>
-                  <div class="col-6 text-right">
-                    <button type="button" class="btn btn-link px-0">Forgot password?</button>
+                  <div class="input-group mb-4">
+                    <span class="input-group-addon"><i class="icon-lock"></i></span>
+                    <input type="password" class="form-control" placeholder="Password" v-model="password">
+                  </div>
+                  <div class="row">
+                    <div class="col-6">
+                      <button type="submit" class="btn btn-primary px-4">Login</button>
+                    </div>
+                    <div class="col-6 text-right">
+                      <button type="button" class="btn btn-link px-0">Forgot password?</button>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </form>
             </div>
             <div class="card text-white bg-primary py-5 d-md-down-none" style="width:44%">
               <div class="card-body text-center">
@@ -43,7 +45,31 @@
 </template>
 
 <script>
-export default {
-  name: 'Login'
-}
+    import store from '@/store'
+    export default {
+        name: 'Login',
+        data() {
+            return {
+                email: '',
+                password: '',
+                loginError: false,
+            }
+        },
+        methods: {
+            submitLogin() {
+                this.loginError = false;
+                axios.post('/api/auth/login', {
+                    email: this.email,
+                    password: this.password
+                }).then(response => {
+                    // login user, store the token and redirect to dashboard
+                    store.commit('loginUser')
+                    localStorage.setItem('token', response.data.access_token)
+                    this.$router.push({ name: 'Dashboard' })
+                }).catch(error => {
+                    this.loginError = true
+                });
+            }
+        }
+    }
 </script>
