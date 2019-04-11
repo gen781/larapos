@@ -1,11 +1,3 @@
 {
-	"plugins": [
-		[
-		  "babel-plugin-root-import",
-		  {
-			"rootPathPrefix": "@",
-			"rootPathSuffix": "./resources/assets/js"
-		  }
-		]
-	]
+  "plugins": ["wildcard"]
 }

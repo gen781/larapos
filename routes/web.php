@@ -11,6 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/{vue_capture?}', 'AppController@index')
+    ->middleware(['speed'])
+    ->where('vue_capture', '[\/\w\.\,\-]*');

@@ -1,5 +1,9 @@
-let mix = require('laravel-mix');
-var coreui_vendor = 'vendor/mrholek/CoreUI-Free-Bootstrap-Admin-Template/Vue_Full_Project';
+const path          = require('path')
+const mix           = require('laravel-mix')
+const webpack       = require('webpack')
+const { version }   = require('./package.json')
+const WebpackBar    = require('webpackbar')
+const OfflinePlugin = require('offline-plugin')
 
 /*
  |--------------------------------------------------------------------------
@@ -12,15 +16,92 @@ var coreui_vendor = 'vendor/mrholek/CoreUI-Free-Bootstrap-Admin-Template/Vue_Ful
  |
  */
 
-// Copy over the CoreUI Assets initially
-// mix.copyDirectory(coreui_vendor + '/static/img', 'public/static/img')
-//    .copy(coreui_vendor + '/static/img/logo.png', 'resources/assets/img/logo.png')
-//    .copyDirectory(coreui_vendor + '/scss', 'resources/assets/scss')
-//    .copyDirectory(coreui_vendor + '/src/components', 'resources/assets/js/components')
-//    .copyDirectory(coreui_vendor + '/src/containers', 'resources/assets/js/containers')
-//    .copyDirectory(coreui_vendor + '/src/router', 'resources/assets/js/router')
-//    .copyDirectory(coreui_vendor + '/src/views', 'resources/assets/js/views')
-//    .copy(coreui_vendor + '/src/_nav.js', 'resources/assets/js/_nav.js')
-//    .copy(coreui_vendor + '/src/App.vue', 'resources/assets/js/App.vue', false);
+mix.js('resources/js/app.js', 'public/js')
+mix.sass('resources/sass/app.scss', 'public/css')
+mix.webpackConfig({
+  devServer: { disableHostCheck: true },
+  resolve  : {
+    alias: {
+      '@'         : path.resolve(__dirname, 'resources/js/coreui/'),
+      'static'    : path.resolve(__dirname, 'resources/static/'),
+      'validators': 'vuelidate/lib/validators',
+    },
+  },
+  plugins: [
+    new WebpackBar({ profile: true }),
+    new webpack.DefinePlugin({ __VERSION: JSON.stringify(version) }),
+    new OfflinePlugin({
+      publicPath      : '/',
+      appShell        : '/',
+      responseStrategy: 'network-first',
+      externals       : [
+        '/',
+        '/manifest.json',
+        '/favicon.png',
+      ],
+      ServiceWorker: {
+        entry : path.resolve(__dirname, 'resources/js/sw.js'),
+        output: 'sw.js',
+        minify: mix.inProduction(),
+      },
+    }),
+  ],
+})
 
-mix.js('resources/assets/js/app.js', 'public/js');
+mix.extend('vueOptions', (webpackConfig, vueOptions, ...args) => {
+  const vueLoader = webpackConfig.module.rules.find((loader) => loader.loader === 'vue-loader')
+
+  vueLoader.options = require('webpack-merge').smart(vueLoader.options, vueOptions)
+})
+
+mix.vueOptions({
+  transformToRequire: {
+    'img'             : 'src',
+    'image'           : 'xlink:href',
+    'b-img'           : 'src',
+    'b-img-lazy'      : ['src', 'blank-src'],
+    'b-card'          : 'img-src',
+    'b-card-img'      : 'img-src',
+    'b-carousel-slide': 'img-src',
+    'b-embed'         : 'src',
+  },
+})
+
+mix.extract([
+  'axios',
+  'bootstrap',
+  'bootstrap-vue',
+  'chart.js',
+  'jquery',
+  'lodash',
+  'moment',
+  'popper.js',
+  'select2',
+  'vue',
+  'vue-chartjs',
+  'vue-loading-spinner',
+  'vue-notification',
+  'vue-router',
+  'vue-sweetalert2',
+  'vuejs-datepicker',
+  'vuelidate',
+  'vuex',
+  'vuex-easy-access',
+])
+
+mix.options({
+  clearConsole: false,
+  hmrOptions  : {
+    host: process.env.MIX_HMR_HOST,
+    port: process.env.MIX_HMR_PORT,
+  },
+  terser: { terserOptions: { parallel: true } },
+})
+
+if (mix.inProduction())
+  mix.version()
+else
+  mix.sourceMaps()
+
+if (process.platform === 'darwin')
+  mix.disableNotifications()
