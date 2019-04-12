@@ -7,6 +7,7 @@ import buttons from './buttons'
 import icons from './icons'
 import notifications from './notifications'
 import theme from './theme'
+import master from './master'
 
 export default [
   base,
@@ -14,6 +15,7 @@ export default [
   icons,
   notifications,
   theme,
+  master,
   {
     path     : 'charts',
     name     : 'Charts',

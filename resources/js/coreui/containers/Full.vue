@@ -51,6 +51,9 @@ export default {
       return this.$route.matched
     },
   },
+  created() {
+    $('body').addClass('aside-menu-hidden')
+  },
   mounted () {
     $('body').addClass('app sidebar-lg-show pace-done')
     $(window).on('scroll', this.setPosNotify)
