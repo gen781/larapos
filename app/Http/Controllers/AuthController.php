@@ -12,10 +12,6 @@ class AuthController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('auth:api', ['except' => ['login']]);
-    }
 
     /**
      * Get a JWT via given credentials.
@@ -25,22 +21,14 @@ class AuthController extends Controller
     public function login()
     {
         $credentials = request(['email', 'password']);
-
-        if (! $token = auth()->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
+        if (!$token = auth('api')->attempt($credentials)) {
+            return response()->json([
+                'status' => 'Error',
+                'pesan' => 'Unauthorized'
+            ], 401);
+        }   
 
         return $this->respondWithToken($token);
-    }
-
-    /**
-     * Get the authenticated User.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function me()
-    {
-        return response()->json(auth()->user());
     }
 
     /**
@@ -50,9 +38,12 @@ class AuthController extends Controller
      */
     public function logout()
     {
-        auth()->logout();
+        auth('api')->logout();
 
-        return response()->json(['message' => 'Successfully logged out']);
+        return response()->json([
+            'status' => 'Sukses',
+            'pesan' => 'Berhasil Logout!'
+        ], 200);
     }
 
     /**
@@ -75,9 +66,11 @@ class AuthController extends Controller
     protected function respondWithToken($token)
     {
         return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
+            'status' => 'Sukses',
+            'pesan' => 'Berhasil login!',
+            'token' => $token,
+            'expires' => auth('api')->factory()->getTTL() * 60,
+            'user' => auth('api')->user()
         ]);
     }
 }
