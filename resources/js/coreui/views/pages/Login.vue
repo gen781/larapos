@@ -97,42 +97,42 @@
 </template>
 
 <script>
-  import { required } from 'validators'
-  import store from '@/store'
+import { required } from 'validators'
+import store from '@/store'
 
-  export default {
-    name: 'Login',
-    data () {
-      return {
-        email: '',
-        password: '',
-        loginError: false,
+export default {
+  name: 'Login',
+  data () {
+    return {
+      email: '',
+      password: '',
+      loginError: false,
+    }
+  },
+  validations () {
+    return {
+      email: { required },
+      password: { required },
+    }
+  },
+  methods: {
+    submit () {
+      this.$v.$touch();
+      this.loginError = false;
+      if(this.email!=''&&this.password!='') {
+        axios.post('/api/auth/login', {
+          email: this.email,
+          password: this.password
+        }).then(response => {
+            // login user, store the token and redirect to dashboard
+            store.commit('loginUser')
+            localStorage.setItem('token', response.data.access_token)
+            this.$router.push({ name: 'Dashboard' })
+        }).catch(error => {
+            this.loginError = true
+        });
       }
     },
-    validations () {
-      return {
-        email: { required },
-        password: { required },
-      }
-    },
-    methods: {
-      submit () {
-        this.$v.$touch();
-        this.loginError = false;
-        if(this.email!=''&&this.password!='') {
-          axios.post('/api/auth/login', {
-            email: this.email,
-            password: this.password
-          }).then(response => {
-              // login user, store the token and redirect to dashboard
-              store.commit('loginUser')
-              localStorage.setItem('token', response.data.access_token)
-              this.$router.push({ name: 'Dashboard' })
-          }).catch(error => {
-              this.loginError = true
-          });
-        }
-      },
-    },
-  }
+  },
+}
 </script>

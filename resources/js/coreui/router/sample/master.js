@@ -15,9 +15,19 @@ export default {
   children: [
     {
       path     : 'user',
+      redirect : 'user',
       name     : 'User',
-      component: User,
+      component: {
+        render (c) {
+          return c('router-view')
+        },
+      },
       children: [
+        {
+          path     : '/',
+          name     : 'Index',
+          component: User,
+        },
         {
           path     : 'create',
           name     : 'Create',

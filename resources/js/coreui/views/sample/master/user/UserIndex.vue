@@ -10,15 +10,16 @@
           fixed
         >
           <template slot="caption">
-            <i class='fa fa-align-justify'></i> Daftar User
+            <i class="fa fa-align-justify" /> Daftar User
             <div class="text-right">
               <b-button
                 size="sm"
                 variant="success"
+                to="user/create"
               >
-                <i class="fa fa-plus"></i>
+                <i class="fa fa-plus" />
                 Tambah User
-            </b-button>
+              </b-button>
             </div>
           </template>
         </user-table>
