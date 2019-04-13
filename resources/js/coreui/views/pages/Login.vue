@@ -120,13 +120,13 @@ export default {
       this.$v.$touch();
       this.loginError = false;
       if(this.email!=''&&this.password!='') {
-        axios.post('/api/auth/login', {
+        axios.post('/api/login', {
           email: this.email,
           password: this.password
         }).then(response => {
             // login user, store the token and redirect to dashboard
             store.commit('loginUser')
-            localStorage.setItem('token', response.data.access_token)
+            localStorage.setItem('token', response.data.token)
             this.$router.push({ name: 'Dashboard' })
         }).catch(error => {
             this.loginError = true

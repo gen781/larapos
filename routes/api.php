@@ -35,8 +35,8 @@ use Illuminate\Http\Request;
 
 
 Route::group(['middleware' => 'api',], function () {
-    Route::post('login', 'AuthController@login');
-    Route::post('logout', 'AuthController@logout');
+    Route::post('login', 'AuthController@login')->name('login');
+    Route::post('logout', 'AuthController@logout')->name('logout');
 
     Route::group(['middleware' => 'jwt.auth',], function () {
         Route::get('user', 'UserController@index')->name('user.index');

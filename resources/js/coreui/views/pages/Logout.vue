@@ -6,6 +6,16 @@
     import store from '@/store'
     export default {
         mounted () {
+            axios.post('/api/logout','',{
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                console.log(response.data)
+            }).catch(error => {
+                console.log(error)
+            });
             localStorage.removeItem('token')
             store.commit('logoutUser')
             this.$router.push({ name: 'Login' })
