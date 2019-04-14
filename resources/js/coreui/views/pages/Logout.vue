@@ -3,7 +3,6 @@
 </template>
 
 <script>
-    import store from '@/store'
     export default {
         mounted () {
             axios.post('/api/logout','',{
@@ -17,7 +16,7 @@
                 console.log(error)
             });
             localStorage.removeItem('token')
-            store.commit('logoutUser')
+            this.$store.commit('logoutUser')
             this.$router.push({ name: 'Login' })
         }
     }

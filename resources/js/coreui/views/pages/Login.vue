@@ -98,7 +98,6 @@
 
 <script>
 import { required } from 'validators'
-import store from '@/store'
 
 export default {
   name: 'Login',
@@ -125,8 +124,7 @@ export default {
           password: this.password
         }).then(response => {
             // login user, store the token and redirect to dashboard
-            store.commit('loginUser')
-            localStorage.setItem('token', response.data.token)
+            this.$store.commit('loginUser', response.data.token)
             this.$router.push({ name: 'Dashboard' })
         }).catch(error => {
             this.loginError = true

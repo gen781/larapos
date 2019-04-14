@@ -21,11 +21,13 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        isLoggedIn: !!localStorage.getItem('token')
+        isLoggedIn: !!localStorage.getItem('token'),
+        token: localStorage.getItem('token')
     },
     mutations: {
-        loginUser (state) {
-            state.isLoggedIn = true
+        loginUser (state, token) {
+            state.isLoggedIn = true;
+            localStorage.setItem('token', token);
         },
         logoutUser (state) {
             state.isLoggedIn = false

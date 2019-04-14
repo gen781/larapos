@@ -12,6 +12,7 @@ import Select2 from './components/Select'
 import App from './App'
 import router from './router'
 import store from './store'
+import interceptorsSetup from '@/interceptors'
 
 Vue.use(BootstrapVue)
 Vue.use(Notifications)
@@ -42,6 +43,8 @@ Vue.component('b-datepicker', {
     },
   },
 })
+
+interceptorsSetup();
 
 export default new Vue({
   el        : '#app',
