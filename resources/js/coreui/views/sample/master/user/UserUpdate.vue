@@ -13,6 +13,7 @@
             description="Silahkan masukkan nama Anda."
           >
             <b-form-input
+              v-model="user.name"
               id="horizEmail"
               type="text"
               placeholder="Nama.."
@@ -25,6 +26,7 @@
             description="Silahkan masukkan email Anda."
           >
             <b-form-input
+              v-model="user.email"
               id="horizEmail"
               type="email"
               placeholder="Email.."
@@ -70,18 +72,34 @@ export default {
   name: 'UserUpdate',
   data () {
     return {
-      selected  : [], // Must be an array reference!
+      user  : {}, 
       datepicker: new Date(),
       select2   : 'a',
+    }
+  },
+  watch: {
+    '$route' (to, from) {
+      this.showUser();
     }
   },
   methods: {
     click () {
       // do nothing
     },
+    showUser() {
+      axios.get('/api/user/'+this.$route.params.id).then(response => {
+        this.user = response.data.user;
+        // console.log(this.user);
+      }).catch(err => {
+        console.log(err)
+      })
+    },
     batal() {
       this.$router.go(-1);
     }
   },
+  mounted() {
+    this.showUser();
+  }
 }
 </script>

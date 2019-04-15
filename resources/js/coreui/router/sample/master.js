@@ -34,7 +34,7 @@ export default {
           component: UserCreate,
         },
         {
-          path     : 'update',
+          path     : 'update/:id',
           name     : 'Update',
           component: UserUpdate,
         },

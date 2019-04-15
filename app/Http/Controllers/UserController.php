@@ -52,7 +52,18 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::where('id',$id)->firstOrFail();
+        $user->view_users = [
+            'href' => '/api/user',
+            'method' => 'GET'
+        ];
+
+        $response = [
+            'status' => 'Sukses',
+            'pesan' => 'Informasi User',
+            'user' => $user
+        ];
+        return response()->json($response, 200);
     }
 
     /**

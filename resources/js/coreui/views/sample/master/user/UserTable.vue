@@ -29,7 +29,7 @@
         slot="action"
         slot-scope="data"
       >
-        <b-badge variant="warning" to="user/update/">
+        <b-badge variant="warning" :to='"user/update/"+data.item.id'>
           <i class="fa fa-edit"></i>
           Ubah
         </b-badge>
@@ -188,7 +188,7 @@ export default {
     getUsers() {
       axios.get('/api/user').then(response => {
         this.users=response.data.users;
-        console.log(this.users);
+        // console.log(this.users);
       }).catch(error => {
         console.log(error);
       });
