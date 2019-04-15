@@ -25,11 +25,12 @@ export default new Vuex.Store({
         token: localStorage.getItem('token')
     },
     mutations: {
-        loginUser (state, token) {
+        loginUser: (state, token) => {
             state.isLoggedIn = true;
+            state.token = token;
             localStorage.setItem('token', token);
         },
-        logoutUser (state) {
+        logoutUser: (state) => {
             state.isLoggedIn = false
         },
     }

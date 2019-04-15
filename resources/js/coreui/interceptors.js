@@ -1,10 +1,9 @@
 import store from '@/store'
-import router from '@/router'
 
 export default function interceptorsSetup() {
     axios.interceptors.request.use(function(config) {
         const token = store.state.token;
-        console.log(token);
+        // console.log(token);
         if(token) {
             config.headers.Authorization = `Bearer ${token}`;
         }
@@ -19,21 +18,50 @@ export default function interceptorsSetup() {
     function(err) {
         const originalRequest = err.config;
         if (err.response.status===401&&store.state.isLoggedIn) {
-            if (!originalRequest._retry) {
-                originalRequest._retry = true;
-                return axios.post('/api/refresh').then(response => {
-                    console.log(response.data.token);
-                    originalRequest['Authorization'] = 'Bearer ' + token;
-                    store.commit('loginUser', response.data.token);
-                    return Promise.resolve(originalRequest);
-                });
-            } else {
-                // localStorage.removeItem('token')
-                // store.commit('logoutUser')
-                // router.push({ name: 'Login' })
-                console.log('coba');
-            }
+            axios.post('/api/refresh').then(response => {
+                originalRequest.headers.Authorization = `Bearer ${response.data.token}`;
+                store.commit('loginUser', response.data.token);
+                // console.log(originalRequest.headers.Authorization);
+                return Promise.resolve(axios(originalRequest));
+            });
         }
         return Promise.reject(err);
     });
+
+    // let isRefreshing = false;
+    // let subscribers = [];
+
+    // axios.interceptors.response.use(undefined, err => {
+    //     const { config, response: { status } } = err;
+    //     const originalRequest = config;
+      
+    //     if (status === 401) {
+    //       if (!isRefreshing) {
+    //         isRefreshing = true;
+    //         axios.post('/api/refresh').then(response => {
+    //             const { data } = response;
+    //             isRefreshing = false;
+    //             onRrefreshed(data.access_token);
+    //             store.commit('loginUser', data.token);
+    //             subscribers = [];
+    //         });
+    //       }
+    //       const requestSubscribers = new Promise(resolve => {
+    //         subscribeTokenRefresh(token => {
+    //           originalRequest.headers.Authorization = `Bearer ${token}`;
+    //           resolve(axios(originalRequest));
+    //         });
+    //       });
+    //       return requestSubscribers;
+    //     }
+    //     return Promise.reject(err);
+    // });
+    
+    // function subscribeTokenRefresh(cb) {
+    //     subscribers.push(cb);
+    // }
+    
+    // function onRrefreshed(token) {
+    //     subscribers.map(cb => cb(token));
+    // }  
 }
