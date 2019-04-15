@@ -13,6 +13,7 @@
                 <p class="text-muted">
                   Sign In to your account
                 </p>
+                <b-alert :show="loginError" variant="danger">Email atau Password Anda salah!</b-alert>
                 <b-input-group class="mb-3">
                   <b-input-group-prepend>
                     <b-input-group-text>
