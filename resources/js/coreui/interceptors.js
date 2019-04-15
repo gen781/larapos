@@ -12,56 +12,56 @@ export default function interceptorsSetup() {
         return Promise.reject(err);
     });
 
-    axios.interceptors.response.use(function(config) {
-        return config;
-    },
-    function(err) {
-        const originalRequest = err.config;
-        if (err.response.status===401&&store.state.isLoggedIn) {
-            axios.post('/api/refresh').then(response => {
-                originalRequest.headers.Authorization = `Bearer ${response.data.token}`;
-                store.commit('loginUser', response.data.token);
-                // console.log(originalRequest.headers.Authorization);
-                return Promise.resolve(axios(originalRequest));
-            });
-        }
-        return Promise.reject(err);
-    });
-
-    // let isRefreshing = false;
-    // let subscribers = [];
-
-    // axios.interceptors.response.use(undefined, err => {
-    //     const { config, response: { status } } = err;
-    //     const originalRequest = config;
-      
-    //     if (status === 401) {
-    //       if (!isRefreshing) {
-    //         isRefreshing = true;
+    // axios.interceptors.response.use(function(config) {
+    //     return config;
+    // },
+    // function(err) {
+    //     const originalRequest = err.config;
+    //     if (err.response.status===401&&store.state.isLoggedIn) {
     //         axios.post('/api/refresh').then(response => {
-    //             const { data } = response;
-    //             isRefreshing = false;
-    //             onRrefreshed(data.access_token);
-    //             store.commit('loginUser', data.token);
-    //             subscribers = [];
+    //             originalRequest.headers.Authorization = `Bearer ${response.data.token}`;
+    //             store.commit('loginUser', response.data.token);
+    //             // console.log(originalRequest.headers.Authorization);
     //         });
-    //       }
-    //       const requestSubscribers = new Promise(resolve => {
-    //         subscribeTokenRefresh(token => {
-    //           originalRequest.headers.Authorization = `Bearer ${token}`;
-    //           resolve(axios(originalRequest));
-    //         });
-    //       });
-    //       return requestSubscribers;
+    //         return Promise.resolve(axios(originalRequest));
     //     }
     //     return Promise.reject(err);
     // });
+
+    let isRefreshing = false;
+    let subscribers = [];
+
+    axios.interceptors.response.use(undefined, err => {
+        const { config, response: { status } } = err;
+        const originalRequest = config;
+      
+        if (status === 401) {
+          if (!isRefreshing) {
+            isRefreshing = true;
+            axios.post('/api/refresh').then(response => {
+                const { data } = response;
+                isRefreshing = false;
+                onRrefreshed(data.access_token);
+                store.commit('loginUser', data.token);
+                subscribers = [];
+            });
+          }
+          const requestSubscribers = new Promise(resolve => {
+            subscribeTokenRefresh(token => {
+              originalRequest.headers.Authorization = `Bearer ${token}`;
+              resolve(axios(originalRequest));
+            });
+          });
+          return requestSubscribers;
+        }
+        return Promise.reject(err);
+    });
     
-    // function subscribeTokenRefresh(cb) {
-    //     subscribers.push(cb);
-    // }
+    function subscribeTokenRefresh(cb) {
+        subscribers.push(cb);
+    }
     
-    // function onRrefreshed(token) {
-    //     subscribers.map(cb => cb(token));
-    // }  
+    function onRrefreshed(token) {
+        subscribers.map(cb => cb(token));
+    }  
 }
