@@ -29,6 +29,11 @@ export default {
       icon: 'icon-people',
     },
     {
+      name: 'Produk',
+      url : '/master/produk',
+      icon: 'icon-bag',
+    },
+    {
       title  : true,
       name   : 'Theme',
       class  : '',

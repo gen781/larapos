@@ -17,6 +17,9 @@ import Register from '@/views/pages/Register'
 // Sample route
 import sample from './sample'
 
+// Master route
+import master from './master'
+
 //vuex store
 import store from '@/store'
 
@@ -35,6 +38,7 @@ const routes = [
         name     : 'Dashboard',
         component: Dashboard,
       },
+      master,
       ...sample,
     ],
   },
