@@ -3,6 +3,7 @@
     <b-row>
       <b-col sm="12">
         <user-table
+          :cari-user="users"
           hover
           striped
           bordered
@@ -36,8 +37,6 @@
                   <i class="fa fa-plus" />
                   Tambah User
                 </b-button>
-                
-                
               </div>
             </div>
           </template>
@@ -56,16 +55,31 @@ export default {
   data() {
     return {
       cariUser: '',
+      users: []
+    }
+  },
+  watch: {
+    cariUser(user) {
+      this.getUser(user);
     }
   },
   methods: {
     getUser(user) {
-      axios.get('/api/user/'+user).then(response => {
-        this.cariUser = response.data.user;
-        // console.log(this.user);
-      }).catch(err => {
-        console.log(err)
-      })
+      if(user!='') {
+        axios.get('/api/user/cari/'+user).then(response => {
+          this.users = response.data.user;
+          // console.log(this.users);
+        }).catch(err => {
+          console.log(err)
+        })
+      } else {
+        axios.get('/api/user/').then(response => {
+          this.users = response.data.users;
+          // console.log(this.users);
+        }).catch(err => {
+          console.log(err)
+        })
+      }
     }
   },
   mounted() {

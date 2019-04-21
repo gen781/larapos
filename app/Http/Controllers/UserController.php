@@ -14,7 +14,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $users = User::with('role')->get();
         $response = [
             'status' => 'Sukses',
             'pesan' => 'Daftar User',
@@ -52,7 +52,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = User::where('id',$id)->firstOrFail();
+        $user = User::with('role')->where('id',$id)->firstOrFail();
         $user->view_users = [
             'href' => '/api/user',
             'method' => 'GET'
@@ -98,5 +98,21 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function cari($nama)
+    {
+        $user = User::with('role')->where('name', 'ILIKE', "%{$nama}%")->get();
+        $user->view_users = [
+            'href' => '/api/user',
+            'method' => 'GET'
+        ];
+
+        $response = [
+            'status' => 'Sukses',
+            'pesan' => 'Informasi User',
+            'user' => $user
+        ];
+        return response()->json($response, 200);
     }
 }

@@ -16,12 +16,14 @@ class UsersTableSeeder extends Seeder
             [
                 'password'   => app('hash')->make('masuk123'),
                 'email'      => 'admin@admin.com',
-                'name'       => 'Administrator'
+                'nama'       => 'Administrator',
+                'role'       => 1
             ],
             [
                 'password'   => app('hash')->make('masuk123'),
                 'email'      => 'gen781@gmail.com',
-                'name'       => 'Rahmat Ade Saputra'
+                'nama'       => 'Rahmat Ade Saputra',
+                'role'       => 2
             ]
         ]);
     }
