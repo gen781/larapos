@@ -36,12 +36,12 @@
             :label-cols="3"
             label="Role"
             label-for="daftarRole"
+            description="Silahkan pilih role Anda."
           >
             <b-form-select
               id="daftarRole"
               :plain="true"
-              :options="[roles[0].id, roles[1].id]"
-              :value="roles[0].nama_role"
+              :options="roles"
               v-model="selected_role"
               @change="changeRole(selected_role)"
             />
@@ -51,6 +51,7 @@
               type="submit"
               size="sm"
               variant="primary"
+              @click="simpan"
             >
               <i class="fa fa-dot-circle-o" /> Simpan
             </b-button>
@@ -75,7 +76,6 @@ export default {
   data () {
     return {
       user: {}, 
-      role_user: '',
       roles: [],
       selected_role: '',
     }
@@ -92,8 +92,7 @@ export default {
     showUser() {
       axios.get('/api/user/'+this.$route.params.id).then(response => {
         this.user = response.data.user;
-        this.role_user = this.user.role;
-        this.selected_role = this.role_user.id;
+        this.selected_role = this.user.role.id;
         // console.log(this.user);
       }).catch(err => {
         console.log(err)
@@ -101,8 +100,21 @@ export default {
     },
     showRoles() {
       axios.get('/api/role').then(response => {
-        this.roles = response.data.roles;
-        console.log(this.roles);
+        this.roles = response.data.roles.map(role => ({ value: role.id, text: role.nama_role }));
+        // console.log(this.roles);
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    simpan() {
+      let data = {
+        nama: this.user.nama,
+        email: this.user.email,
+        role: this.selected_role,
+      }
+      axios.patch('/api/user/update/'+this.user.id, data).then(response => {
+        // console.log(response.data.user);
+        this.$router.push({ name: 'User' })
       }).catch(err => {
         console.log(err)
       })

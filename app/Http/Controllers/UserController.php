@@ -41,7 +41,35 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $password = $request->input('password');
+        $email = $request->input('email');
+        $nama = $request->input('nama');
+        $role = $request->input('role');
+  
+        $user = new User([
+            'password' => app('hash')->make($password),
+            'email' => $email,
+            'nama' => $nama,
+            'role' => $role,
+        ]);
+  
+        if ($user->save()) {
+            $user->view_user = [
+                'href' => '/api/user/' . $user->id,
+                'method' => 'GET'
+            ];
+            $response = [
+                'status' => 'Sukses',
+                'pesan' => 'User berhasil didaftarkan',
+                'user' => $user,
+            ];
+            return response()->json($response, 201);
+        } else {
+            $response = [
+                'error' => 'Terjadi kesalahan'
+            ];
+            return response()->json($response, 404);
+        }
     }
 
     /**
@@ -86,7 +114,36 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $email = $request->input('email');
+        $nama = $request->input('nama');
+        $role = $request->input('role');
+
+        $user = User::findOrFail($id);
+
+        $user->email = $email;
+        $user->nama = $nama;
+        $user->role = $role;
+
+        if(!$user->update()){
+            $response = [
+                'status' => 'Error',
+                'pesan' => 'Proses update gagal'
+            ];
+            return response()->json($response, 404);
+        }
+
+        $user->view_user = [
+            'href' => '/api/user/' . $user->id,
+            'method' => 'GET'
+        ];
+
+        $response = [
+            'status' => 'Sukses',
+            'pesan' => 'Update user berhasil',
+            'user' => $user
+        ];
+
+        return response()->json($response, 200);
     }
 
     /**
@@ -102,7 +159,7 @@ class UserController extends Controller
 
     public function cari($nama)
     {
-        $user = User::with('role')->where('name', 'ILIKE', "%{$nama}%")->get();
+        $user = User::with('role')->where('nama', 'ILIKE', "%{$nama}%")->get();
         $user->view_users = [
             'href' => '/api/user',
             'method' => 'GET'

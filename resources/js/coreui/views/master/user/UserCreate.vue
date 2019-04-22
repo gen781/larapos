@@ -13,6 +13,7 @@
             description="Silahkan masukkan nama Anda."
           >
             <b-form-input
+              v-model="user.nama"
               id="horizEmail"
               type="text"
               placeholder="Nama.."
@@ -25,6 +26,7 @@
             description="Silahkan masukkan email Anda."
           >
             <b-form-input
+              v-model="user.email"
               id="horizEmail"
               type="email"
               placeholder="Email.."
@@ -32,14 +34,16 @@
           </b-form-group>
           <b-form-group
             :label-cols="3"
-            label="Password"
-            label-for="horizPass"
-            description="Silahkan masukkan password Anda."
+            label="Role"
+            label-for="daftarRole"
+            description="Silahkan pilih role Anda."
           >
-            <b-form-input
-              id="horizPass"
-              type="password"
-              placeholder="Password.."
+            <b-form-select
+              id="daftarRole"
+              :plain="true"
+              :options="roles"
+              v-model="selected_role"
+              @change="changeRole(selected_role)"
             />
           </b-form-group>
           <div slot="footer">
@@ -47,6 +51,7 @@
               type="submit"
               size="sm"
               variant="primary"
+              @click="simpan"
             >
               <i class="fa fa-dot-circle-o" /> Simpan
             </b-button>
@@ -70,18 +75,46 @@ export default {
   name: 'UserCreate',
   data () {
     return {
-      selected  : [], // Must be an array reference!
-      datepicker: new Date(),
-      select2   : 'a',
+      user: {
+        password: 'masuk123',
+        nama: '',
+        email: '',
+        role: 2
+      },
+      roles: [],
+      selected_role: 2,
     }
   },
   methods: {
     click () {
       // do nothing
     },
+    showRoles() {
+      axios.get('/api/role').then(response => {
+        this.roles = response.data.roles.map(role => ({ value: role.id, text: role.nama_role }));
+        // console.log(this.roles);
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    simpan() {
+      let data = this.user;
+      axios.post('/api/user', data).then(response => {
+        // console.log(response.data.user);
+        this.$router.push({ name: 'User' })
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    changeRole(role) {
+      this.user.role=role
+    },
     batal() {
       this.$router.go(-1);
     }
   },
+  mounted() {
+    this.showRoles();
+  }
 }
 </script>
