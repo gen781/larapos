@@ -26,6 +26,7 @@ Route::group(['middleware' => 'api',], function () {
         Route::get('user', 'UserController@index')->name('user.index');
         Route::post('user', 'UserController@store')->name('user.store');
         Route::get('user/{id}', 'UserController@show')->name('user.show');
+        Route::delete('user/{id}', 'UserController@destroy')->name('user.destroy');
         Route::get('user/cari/{nama}', 'UserController@cari')->name('user.cari');
         Route::patch('/user/update/{id}', 'UserController@update')->name('user.update');
         Route::get('role', 'RoleController@index')->name('role.index');

@@ -154,7 +154,26 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        if($user->delete()){
+            $response = [
+                'status' => 'Sukses',
+                'pesan' => 'User berhasil dihapus',
+                'create' => [
+                'href' => '/api/user',
+                'method' => 'POST',
+                'params' => 'email, password, nama, role'
+                ]
+            ];
+            return response()->json($response, 200);
+        } else {
+            $response = [
+                'status' => 'Error',
+                'pesan' => 'Proses hapus gagal'
+            ];
+            return response()->json($response, 404);
+        }
     }
 
     public function cari($nama)

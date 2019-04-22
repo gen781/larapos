@@ -1,5 +1,21 @@
 <template>
   <b-card>
+    <div>
+      <b-modal
+      v-model="dangerModal"
+      title="Modal title"
+      class="modal-danger"
+      ok-variant="danger"
+      @ok="dangerModal = false"
+    >
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+      cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </b-modal>
+    </div>
     <template slot="header">
       <slot name="caption">
         Table
@@ -29,15 +45,15 @@
         slot="action"
         slot-scope="data"
       >
-        <b-badge variant="warning" :to='"user/update/"+data.item.id'>
+        <b-button size="sm" variant="warning" :to='"user/update/"+data.item.id'>
           <i class="fa fa-edit"></i>
           Ubah
-        </b-badge>
+        </b-button>
 
-        <b-badge variant="danger" href="user/hapus">
+        <b-button size="sm" variant="danger" @click="dangerModal=true">
           <i class="fa fa-trash"></i>
           Hapus
-        </b-badge>
+        </b-button>
       </template>
     </b-table>
     <nav>
@@ -92,6 +108,7 @@ export default {
       currentPage: 1,
       perPage    : 5,
       totalRows  : 0,
+      dangerModal: false
     }
   },
   watch: {

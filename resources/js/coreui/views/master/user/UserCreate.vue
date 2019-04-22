@@ -6,6 +6,17 @@
           <div slot="header">
             <strong>Form</strong> Tambah User
           </div>
+          <div>
+            <b-alert
+              :show="alertCountDown"
+              dismissible
+              variant="warning"
+              @dismissed="alertCountDown=0"
+              @dismiss-count-down="alertCountDownChanged"
+            >
+              Data belum lengkap, silahkan lengkapi data terlebih dahulu!
+            </b-alert>
+          </div>
           <b-form-group
             :label-cols="3"
             label="Nama"
@@ -83,12 +94,11 @@ export default {
       },
       roles: [],
       selected_role: 2,
+      alertTime         : 10,
+      alertCountDown    : 0,
     }
   },
   methods: {
-    click () {
-      // do nothing
-    },
     showRoles() {
       axios.get('/api/role').then(response => {
         this.roles = response.data.roles.map(role => ({ value: role.id, text: role.nama_role }));
@@ -98,20 +108,29 @@ export default {
       })
     },
     simpan() {
-      let data = this.user;
-      axios.post('/api/user', data).then(response => {
-        // console.log(response.data.user);
-        this.$router.push({ name: 'User' })
-      }).catch(err => {
-        console.log(err)
-      })
+      if(this.user.nama!=''&&this.user.email!=''&&this.user.role!=null) {
+        let data = this.user;
+        axios.post('/api/user', data).then(response => {
+          // console.log(response.data.user);
+          this.$router.push({ name: 'User' })
+        }).catch(err => {
+          console.log(err)
+        })
+      } else {
+        this.alertCountDown = this.alertTime;
+        // this.$swal('Data belum lengkap', 'Silahkan lengkapi data terlebih dahulu!', 'warning')
+      }
+      
     },
     changeRole(role) {
       this.user.role=role
     },
     batal() {
       this.$router.go(-1);
-    }
+    },
+    alertCountDownChanged (alertCountDown) {
+      this.alertCountDown = alertCountDown
+    },
   },
   mounted() {
     this.showRoles();
