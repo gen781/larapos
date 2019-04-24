@@ -1,21 +1,5 @@
 <template>
   <b-card>
-    <div>
-      <b-modal
-      v-model="dangerModal"
-      title="Modal title"
-      class="modal-danger"
-      ok-variant="danger"
-      @ok="dangerModal = false"
-    >
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-      cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-    </b-modal>
-    </div>
     <template slot="header">
       <slot name="caption">
         Table
@@ -50,7 +34,7 @@
           Ubah
         </b-button>
 
-        <b-button size="sm" variant="danger" @click="dangerModal=true">
+        <b-button size="sm" variant="danger" @click="alertHapus(data.item)">
           <i class="fa fa-trash"></i>
           Hapus
         </b-button>
@@ -107,8 +91,7 @@ export default {
       ],
       currentPage: 1,
       perPage    : 5,
-      totalRows  : 0,
-      dangerModal: false
+      totalRows  : 0
     }
   },
   watch: {
@@ -117,6 +100,9 @@ export default {
     }
   },
   methods: {
+    alertHapus(user) {
+      this.$parent.tampilAlertHapus(user);
+    },
     getUsers() {
       axios.get('/api/user').then(response => {
         this.users=response.data.users;
