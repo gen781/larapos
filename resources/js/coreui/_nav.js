@@ -11,6 +11,25 @@ export default {
     },
     {
       title  : true,
+      name   : 'Transaksi',
+      class  : '',
+      wrapper: {
+        element   : '',
+        attributes: {},
+      },
+    },
+    {
+      name: 'Pembelian',
+      url : '/master/pembelian',
+      icon: 'icon-action-redo',
+    },
+    {
+      name: 'Penjualan',
+      url : '/master/penjualan',
+      icon: 'icon-action-undo',
+    },
+    {
+      title  : true,
       name   : 'Master',
       class  : '',
       wrapper: {
@@ -33,25 +52,25 @@ export default {
       url : '/master/produk',
       icon: 'icon-bag',
     },
-    {
-      title  : true,
-      name   : 'Theme',
-      class  : '',
-      wrapper: {
-        element   : '',
-        attributes: {},
-      },
-    },
-    {
-      name: 'Colors',
-      url : '/theme/colors',
-      icon: 'icon-drop',
-    },
-    {
-      name: 'Typography',
-      url : '/theme/typography',
-      icon: 'icon-pencil',
-    },
+    // {
+    //   title  : true,
+    //   name   : 'Theme',
+    //   class  : '',
+    //   wrapper: {
+    //     element   : '',
+    //     attributes: {},
+    //   },
+    // },
+    // {
+    //   name: 'Colors',
+    //   url : '/theme/colors',
+    //   icon: 'icon-drop',
+    // },
+    // {
+    //   name: 'Typography',
+    //   url : '/theme/typography',
+    //   icon: 'icon-pencil',
+    // },
     {
       title  : true,
       name   : 'Components',
