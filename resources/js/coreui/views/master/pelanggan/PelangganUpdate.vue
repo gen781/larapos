@@ -4,44 +4,45 @@
       <b-col md="6">
         <b-card>
           <div slot="header">
-            <strong>Form</strong> Edit User
+            <strong>Form</strong> Edit Pelanggan
           </div>
           <b-form-group
             :label-cols="3"
             label="Nama"
-            label-for="horizEmail"
-            description="Silahkan masukkan nama Anda."
+            label-for="horizNama"
+            description="Silahkan masukkan nama pelanggan."
           >
             <b-form-input
-              v-model="user.name"
-              id="horizEmail"
+              v-model="pelanggan.nama"
+              id="horizNama"
               type="text"
               placeholder="Nama.."
             />
           </b-form-group>
           <b-form-group
             :label-cols="3"
-            label="Email"
-            label-for="horizEmail"
-            description="Silahkan masukkan email Anda."
+            label="No.HP"
+            label-for="horizHP"
+            description="Silahkan masukkan nomor handphone."
           >
             <b-form-input
-              v-model="user.email"
-              id="horizEmail"
-              type="email"
-              placeholder="Email.."
+              v-model="pelanggan.hp"
+              id="horizHP"
+              type="text"
+              placeholder="No.HP.."
             />
           </b-form-group>
           <b-form-group
             :label-cols="3"
-            label="Password"
-            label-for="horizPass"
-            description="Silahkan masukkan password Anda."
+            label="Alamat"
+            label-for="horizAlamat"
+            description="Silahkan masukkan alamat."
           >
-            <b-form-input
-              id="horizPass"
-              type="password"
-              placeholder="Password.."
+            <b-form-textarea
+              v-model="pelanggan.alamat"
+              id="horizAlamat"
+              placeholder="Alamat.."
+              rows="4"
             />
           </b-form-group>
           <div slot="footer">
@@ -49,6 +50,7 @@
               type="submit"
               size="sm"
               variant="primary"
+              @click="simpan"
             >
               <i class="fa fa-dot-circle-o" /> Simpan
             </b-button>
@@ -72,24 +74,32 @@ export default {
   name: 'PelangganUpdate',
   data () {
     return {
-      user  : {}, 
-      datepicker: new Date(),
-      select2   : 'a',
+      pelanggan: {}
     }
   },
   watch: {
     '$route' (to, from) {
-      this.showUser();
+      this.showPelanggan();
     }
   },
   methods: {
-    click () {
-      // do nothing
+    showPelanggan() {
+      axios.get('/api/pelanggan/'+this.$route.params.id).then(response => {
+        this.pelanggan = response.data.pelanggan;
+        // console.log(this.pelanggan);
+      }).catch(err => {
+        console.log(err)
+      })
     },
-    showUser() {
-      axios.get('/api/user/'+this.$route.params.id).then(response => {
-        this.user = response.data.user;
-        // console.log(this.user);
+    simpan() {
+      let data = {
+        nama: this.pelanggan.nama,
+        hp: this.pelanggan.hp,
+        alamat: this.pelanggan.alamat
+      }
+      axios.patch('/api/pelanggan/'+this.pelanggan.id, data).then(response => {
+        // console.log(response.data.pelanggan);
+        this.$router.push({ name: 'Pelanggan' })
       }).catch(err => {
         console.log(err)
       })
@@ -99,7 +109,7 @@ export default {
     }
   },
   mounted() {
-    this.showUser();
+    this.showPelanggan();
   }
 }
 </script>

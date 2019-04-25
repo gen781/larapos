@@ -78,7 +78,7 @@ export default {
       type   : Boolean,
       default: false,
     },
-    caripelanggan: ''
+    cariPelanggan: ''
   },
   data: () => {
     return {
@@ -95,7 +95,7 @@ export default {
     }
   },
   watch: {
-    caripelanggan(pelanggan) {
+    cariPelanggan(pelanggan) {
       this.pelanggans=pelanggan;
     }
   },

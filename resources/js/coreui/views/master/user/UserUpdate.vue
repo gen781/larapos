@@ -86,9 +86,6 @@ export default {
     }
   },
   methods: {
-    click () {
-      // do nothing
-    },
     showUser() {
       axios.get('/api/user/'+this.$route.params.id).then(response => {
         this.user = response.data.user;
@@ -112,7 +109,7 @@ export default {
         email: this.user.email,
         role: this.selected_role,
       }
-      axios.patch('/api/user/update/'+this.user.id, data).then(response => {
+      axios.patch('/api/user/'+this.user.id, data).then(response => {
         // console.log(response.data.user);
         this.$router.push({ name: 'User' })
       }).catch(err => {

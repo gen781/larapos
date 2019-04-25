@@ -20,12 +20,12 @@
           <b-form-group
             :label-cols="3"
             label="Nama"
-            label-for="horizEmail"
+            label-for="horizNama"
             description="Silahkan masukkan nama Anda."
           >
             <b-form-input
               v-model="user.nama"
-              id="horizEmail"
+              id="horizNama"
               type="text"
               placeholder="Nama.."
             />
@@ -94,7 +94,7 @@ export default {
       },
       roles: [],
       selected_role: 2,
-      alertTime         : 10,
+      alertTime         : 5,
       alertCountDown    : 0,
     }
   },

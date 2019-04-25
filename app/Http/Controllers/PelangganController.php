@@ -41,7 +41,33 @@ class PelangganController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $nama = $request->input('nama');
+        $hp = $request->input('hp');
+        $alamat = $request->input('alamat');
+  
+        $pelanggan = new Pelanggan([
+            'nama' => $nama,
+            'hp' => $hp,
+            'alamat' => $alamat,
+        ]);
+  
+        if ($pelanggan->save()) {
+            $pelanggan->view_pelanggan = [
+                'href' => '/api/pelanggan/' . $pelanggan->id,
+                'method' => 'GET'
+            ];
+            $response = [
+                'status' => 'Sukses',
+                'pesan' => 'Pelanggan berhasil didaftarkan',
+                'pelanggan' => $pelanggan,
+            ];
+            return response()->json($response, 201);
+        } else {
+            $response = [
+                'error' => 'Terjadi kesalahan'
+            ];
+            return response()->json($response, 404);
+        }
     }
 
     /**
@@ -52,7 +78,18 @@ class PelangganController extends Controller
      */
     public function show($id)
     {
-        //
+        $pelanggan = Pelanggan::where('id',$id)->firstOrFail();
+        $pelanggan->view_pelanggans = [
+            'href' => '/api/pelanggan',
+            'method' => 'GET'
+        ];
+
+        $response = [
+            'status' => 'Sukses',
+            'pesan' => 'Informasi Pelanggan',
+            'pelanggan' => $pelanggan
+        ];
+        return response()->json($response, 200);
     }
 
     /**
@@ -75,7 +112,36 @@ class PelangganController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $nama = $request->input('nama');
+        $hp = $request->input('hp');
+        $alamat = $request->input('alamat');
+
+        $pelanggan = Pelanggan::findOrFail($id);
+
+        $pelanggan->nama = $nama;
+        $pelanggan->hp = $hp;
+        $pelanggan->alamat = $alamat;
+
+        if(!$pelanggan->update()){
+            $response = [
+                'status' => 'Error',
+                'pesan' => 'Proses update gagal'
+            ];
+            return response()->json($response, 404);
+        }
+
+        $pelanggan->view_pelanggan = [
+            'href' => '/api/pelanggan/' . $pelanggan->id,
+            'method' => 'GET'
+        ];
+
+        $response = [
+            'status' => 'Sukses',
+            'pesan' => 'Update pelanggan berhasil',
+            'pelanggan' => $pelanggan
+        ];
+
+        return response()->json($response, 200);
     }
 
     /**
@@ -86,6 +152,41 @@ class PelangganController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $pelanggan = Pelanggan::findOrFail($id);
+
+        if($pelanggan->delete()){
+            $response = [
+                'status' => 'Sukses',
+                'pesan' => 'Pelanggan berhasil dihapus',
+                'create' => [
+                'href' => '/api/pelanggan',
+                'method' => 'POST',
+                'params' => 'nama, alamat, hp'
+                ]
+            ];
+            return response()->json($response, 200);
+        } else {
+            $response = [
+                'status' => 'Error',
+                'pesan' => 'Proses hapus gagal'
+            ];
+            return response()->json($response, 404);
+        }
+    }
+
+    public function cari($nama)
+    {
+        $pelanggan = Pelanggan::where('nama', 'ILIKE', "%{$nama}%")->get();
+        $pelanggan->view_pelanggans = [
+            'href' => '/api/pelanggan',
+            'method' => 'GET'
+        ];
+
+        $response = [
+            'status' => 'Sukses',
+            'pesan' => 'Informasi Pelanggan',
+            'pelanggan' => $pelanggan
+        ];
+        return response()->json($response, 200);
     }
 }
