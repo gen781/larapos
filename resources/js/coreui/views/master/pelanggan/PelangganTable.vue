@@ -11,39 +11,39 @@
       :bordered="bordered"
       :small="small"
       :fixed="fixed"
-      :items="users"
+      :items="pelanggans"
       :fields="fields"
       :current-page="currentPage"
       :per-page="perPage"
       responsive="sm"
     >
       <template
-        slot="status"
+        slot="role"
         slot-scope="data"
       >
-        <b-badge :variant="getBadge(data.item.status)">
-          {{ data.item.status }}
+        <b-badge :variant="getBadge(data.item.role.id)">
+          {{ data.item.role.nama_role }}
         </b-badge>
       </template>
       <template
         slot="action"
         slot-scope="data"
       >
-        <b-badge variant="warning" :to='"pelanggan/update/"+data.item.id'>
+        <b-button size="sm" variant="warning" :to='"pelanggan/update/"+data.item.id'>
           <i class="fa fa-edit"></i>
           Ubah
-        </b-badge>
+        </b-button>
 
-        <b-badge variant="danger" href="pelanggan/hapus">
+        <b-button size="sm" variant="danger" @click="alertHapus(data.item)">
           <i class="fa fa-trash"></i>
           Hapus
-        </b-badge>
+        </b-button>
       </template>
     </b-table>
     <nav>
       <b-pagination
         v-model="currentPage"
-        :total-rows="getRowCount(users)"
+        :total-rows="getRowCount(pelanggans)"
         :per-page="perPage"
         prev-text="Prev"
         next-text="Next"
@@ -54,19 +54,6 @@
 </template>
 
 <script>
-/**
-   * Randomize array element order in-place.
-   * Using Durstenfeld shuffle algorithm.
-   */
-// const shuffleArray = (array) => {
-//   for (let i = array.length - 1; i > 0; i--) {
-//     const j    = Math.floor(Math.random() * (i + 1))
-//     const temp = array[i]
-//     array[i]   = array[j]
-//     array[j]   = temp
-//   }
-//   return array
-// }
 
 export default {
   name : 'PelangganTable',
@@ -91,120 +78,48 @@ export default {
       type   : Boolean,
       default: false,
     },
+    caripelanggan: ''
   },
   data: () => {
     return {
-      users: [],
-      // items: shuffleArray([
-      //   {
-      //     username  : 'Samppa Nori', registered: '2012/01/01', role      : 'Member', status    : 'Active',
-      //   },
-      //   {
-      //     username  : 'Estavan Lykos', registered: '2012/02/01', role      : 'Staff', status    : 'Banned',
-      //   },
-      //   {
-      //     username  : 'Chetan Mohamed', registered: '2012/02/01', role      : 'Admin', status    : 'Inactive',
-      //   },
-      //   {
-      //     username  : 'Derick Maximinus', registered: '2012/03/01', role      : 'Member', status    : 'Pending',
-      //   },
-      //   {
-      //     username  : 'Friderik Dávid', registered: '2012/01/21', role      : 'Staff', status    : 'Active',
-      //   },
-      //   {
-      //     username  : 'Yiorgos Avraamu', registered: '2012/01/01', role      : 'Member', status    : 'Active',
-      //   },
-      //   {
-      //     username  : 'Avram Tarasios', registered: '2012/02/01', role      : 'Staff', status    : 'Banned',
-      //   },
-      //   {
-      //     username  : 'Quintin Ed', registered: '2012/02/01', role      : 'Admin', status    : 'Inactive',
-      //   },
-      //   {
-      //     username  : 'Enéas Kwadwo', registered: '2012/03/01', role      : 'Member', status    : 'Pending',
-      //   },
-      //   {
-      //     username  : 'Agapetus Tadeáš', registered: '2012/01/21', role      : 'Staff', status    : 'Active',
-      //   },
-      //   {
-      //     username  : 'Carwyn Fachtna', registered: '2012/01/01', role      : 'Member', status    : 'Active',
-      //   },
-      //   {
-      //     username  : 'Nehemiah Tatius', registered: '2012/02/01', role      : 'Staff', status    : 'Banned',
-      //   },
-      //   {
-      //     username  : 'Ebbe Gemariah', registered: '2012/02/01', role      : 'Admin', status    : 'Inactive',
-      //   },
-      //   {
-      //     username  : 'Eustorgios Amulius', registered: '2012/03/01', role      : 'Member', status    : 'Pending',
-      //   },
-      //   {
-      //     username  : 'Leopold Gáspár', registered: '2012/01/21', role      : 'Staff', status    : 'Active',
-      //   },
-      //   {
-      //     username  : 'Pompeius René', registered: '2012/01/01', role      : 'Member', status    : 'Active',
-      //   },
-      //   {
-      //     username  : 'Paĉjo Jadon', registered: '2012/02/01', role      : 'Staff', status    : 'Banned',
-      //   },
-      //   {
-      //     username  : 'Micheal Mercurius', registered: '2012/02/01', role      : 'Admin', status    : 'Inactive',
-      //   },
-      //   {
-      //     username  : 'Ganesha Dubhghall', registered: '2012/03/01', role      : 'Member', status    : 'Pending',
-      //   },
-      //   {
-      //     username  : 'Hiroto Šimun', registered: '2012/01/21', role      : 'Staff', status    : 'Active',
-      //   },
-      //   {
-      //     username  : 'Vishnu Serghei', registered: '2012/01/01', role      : 'Member', status    : 'Active',
-      //   },
-      //   {
-      //     username  : 'Zbyněk Phoibos', registered: '2012/02/01', role      : 'Staff', status    : 'Banned',
-      //   },
-      //   {
-      //     username  : 'Einar Randall', registered: '2012/02/01', role      : 'Admin', status    : 'Inactive',
-      //   },
-      //   {
-      //     username  : 'Félix Troels', registered: '2012/03/21', role      : 'Staff', status    : 'Active',
-      //   },
-      //   {
-      //     username  : 'Aulus Agmundr', registered: '2012/01/01', role      : 'Member', status    : 'Pending',
-      //   },
-      // ]),
+      pelanggans: [],
       fields: [
-        { key: 'name' },
-        { key: 'email' },
-        { key: 'password' },
-        { key: 'status' },
+        { key: 'nama' },
+        { key: 'hp' },
+        { key: 'alamat' },
         { key: 'action' }
       ],
       currentPage: 1,
       perPage    : 5,
-      totalRows  : 0,
+      totalRows  : 0
+    }
+  },
+  watch: {
+    caripelanggan(pelanggan) {
+      this.pelanggans=pelanggan;
     }
   },
   methods: {
-    getUsers() {
-      axios.get('/api/user').then(response => {
-        this.users=response.data.users;
-        // console.log(this.users);
+    alertHapus(pelanggan) {
+      this.$parent.tampilAlertHapus(pelanggan);
+    },
+    getPelanggans() {
+      axios.get('/api/pelanggan').then(response => {
+        this.pelanggans=response.data.pelanggans;
+        // console.log(this.pelanggans);
       }).catch(error => {
         console.log(error);
       });
     },
-    getBadge (status) {
-      return status === 'Active' ? 'success'
-        : status === 'Inactive' ? 'secondary'
-          : status === 'Pending' ? 'warning'
-            : status === 'Banned' ? 'danger' : 'primary'
+    getBadge (role) {
+      return role === 1 ? 'success' : 'primary'
     },
     getRowCount (items) {
       return items.length
     },
   },
   created() {
-    this.getUsers();
+    this.getPelanggans();
   }
 }
 </script>

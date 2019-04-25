@@ -30,5 +30,6 @@ Route::group(['middleware' => 'api',], function () {
         Route::get('user/cari/{nama}', 'UserController@cari')->name('user.cari');
         Route::patch('/user/update/{id}', 'UserController@update')->name('user.update');
         Route::get('role', 'RoleController@index')->name('role.index');
+        Route::get('pelanggan', 'PelangganController@index')->name('pelanggan.index');
     });
 });
