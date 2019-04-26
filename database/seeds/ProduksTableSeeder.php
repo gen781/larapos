@@ -16,7 +16,7 @@ class ProduksTableSeeder extends Seeder
             [
                 'kode_produk'   => 'prd00001',
                 'nama'          => 'Mouse Logitech B100',
-                'kemasan'       => 1,
+                'satuan'       => 1,
                 'harga_beli'    => 80000,
                 'harga_jual'    => 100000,
                 'stok'          => 12

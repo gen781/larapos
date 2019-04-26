@@ -14,7 +14,7 @@ class ProdukController extends Controller
      */
     public function index()
     {
-        $produks = Produk::all();
+        $produks = Produk::with('satuan')->get();
         $response = [
             'status' => 'Sukses',
             'pesan' => 'Daftar Produk',
@@ -91,16 +91,16 @@ class ProdukController extends Controller
 
     public function cari($nama)
     {
-        $pelanggan = Produk::where('nama', 'ILIKE', "%{$nama}%")->get();
-        $pelanggan->view_pelanggans = [
-            'href' => '/api/pelanggan',
+        $produk = Produk::with('satuan')->where('nama', 'ILIKE', "%{$nama}%")->get();
+        $produk->view_produks = [
+            'href' => '/api/produk',
             'method' => 'GET'
         ];
 
         $response = [
             'status' => 'Sukses',
-            'pesan' => 'Informasi Pelanggan',
-            'pelanggan' => $pelanggan
+            'pesan' => 'Informasi Produk',
+            'produk' => $produk
         ];
         return response()->json($response, 200);
     }

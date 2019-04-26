@@ -18,12 +18,10 @@
       responsive="sm"
     >
       <template
-        slot="role"
+        slot="satuan"
         slot-scope="data"
       >
-        <b-badge :variant="getBadge(data.item.role.id)">
-          {{ data.item.role.nama_role }}
-        </b-badge>
+        {{ data.item.satuan.nama_satuan }}
       </template>
       <template
         slot="action"
@@ -86,7 +84,7 @@ export default {
       fields: [
         { key: 'kode_produk' },
         { key: 'nama' },
-        { key: 'kemasan' },
+        { key: 'satuan' },
         { key: 'harga_beli' },
         { key: 'harga_jual' },
         { key: 'stok' },
@@ -113,9 +111,6 @@ export default {
       }).catch(error => {
         console.log(error);
       });
-    },
-    getBadge (role) {
-      return role === 1 ? 'success' : 'primary'
     },
     getRowCount (items) {
       return items.length

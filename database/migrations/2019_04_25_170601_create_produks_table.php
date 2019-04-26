@@ -17,11 +17,12 @@ class CreateProduksTable extends Migration
             $table->increments('id');
             $table->string('kode_produk')->unique();
             $table->string('nama');
-            $table->integer('kemasan');
+            $table->integer('satuan');
             $table->integer('harga_beli')->default(null);
             $table->integer('harga_jual');
             $table->integer('stok')->default(null);
             $table->timestamps();
+            $table->foreign('satuan')->references('id')->on('satuans')->onDelete('CASCADE')->onUpdate('CASCADE');
         });
     }
 
