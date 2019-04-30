@@ -41,7 +41,40 @@ class ProdukController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $kode_produk = $request->input('kode_produk');
+        $nama = $request->input('nama');
+        $satuan = $request->input('satuan');
+        $harga_beli = $request->input('harga_beli');
+        $harga_jual = $request->input('harga_jual');
+        $harga_jual = $request->input('harga_jual');
+        $stok = $request->input('stok');
+  
+        $produk = new Produk([
+            'kode_produk' => $kode_produk,
+            'nama' => $nama,
+            'satuan' => $satuan,
+            'harga_beli' => $harga_beli,
+            'harga_jual' => $harga_jual,
+            'stok' => $stok,
+        ]);
+  
+        if ($produk->save()) {
+            $produk->view_produk = [
+                'href' => '/api/produk/' . $produk->id,
+                'method' => 'GET'
+            ];
+            $response = [
+                'status' => 'Sukses',
+                'pesan' => 'Produk berhasil ditambahkan',
+                'produk' => $produk,
+            ];
+            return response()->json($response, 201);
+        } else {
+            $response = [
+                'error' => 'Terjadi kesalahan'
+            ];
+            return response()->json($response, 404);
+        }
     }
 
     /**

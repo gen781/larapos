@@ -7,6 +7,9 @@ import ProdukUpdate from '@/views/master/produk/ProdukUpdate'
 import Pelanggan from '@/views/master/pelanggan/PelangganIndex'
 import PelangganCreate from '@/views/master/pelanggan/PelangganCreate'
 import PelangganUpdate from '@/views/master/pelanggan/PelangganUpdate'
+import Supplier from '@/views/master/supplier/SupplierIndex'
+import SupplierCreate from '@/views/master/supplier/SupplierCreate'
+import SupplierUpdate from '@/views/master/supplier/SupplierUpdate'
 
 export default {
   path     : 'master',
@@ -42,6 +45,33 @@ export default {
           path     : 'update/:id',
           name     : 'Update-user',
           component: UserUpdate,
+        },
+      ],
+    },
+    {
+      path     : 'supplier',
+      redirect : 'supplier',
+      name     : 'Supplier',
+      component: {
+        render (c) {
+          return c('router-view')
+        },
+      },
+      children: [
+        {
+          path     : '/',
+          name     : 'Index-supplier',
+          component: Supplier,
+        },
+        {
+          path     : 'create',
+          name     : 'Create-supplier',
+          component: SupplierCreate,
+        },
+        {
+          path     : 'update/:id',
+          name     : 'Update-supplier',
+          component: SupplierUpdate,
         },
       ],
     },
