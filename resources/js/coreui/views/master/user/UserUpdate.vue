@@ -77,7 +77,7 @@ export default {
     return {
       user: {}, 
       roles: [],
-      selected_role: '',
+      selected_role: null,
     }
   },
   watch: {

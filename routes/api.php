@@ -42,5 +42,6 @@ Route::group(['middleware' => 'api',], function () {
         Route::patch('/produk/{id}', 'ProdukController@update')->name('produk.update');
         Route::delete('produk/{id}', 'ProdukController@destroy')->name('produk.destroy');
         Route::get('produk/cari/{nama}', 'ProdukController@cari')->name('produk.cari');
+        Route::get('satuan', 'SatuanController@index')->name('satuan.index');
     });
 });

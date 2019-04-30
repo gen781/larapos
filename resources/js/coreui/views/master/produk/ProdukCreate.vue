@@ -46,14 +46,15 @@
           <b-form-group
             :label-cols="3"
             label="Satuan"
-            label-for="horizSatuan"
-            description="Silahkan masukkan satuan."
+            label-for="daftarSatuan"
+            description="Silahkan pilih satuan produk."
           >
-            <b-form-input
-              v-model="produk.satuan"
-              id="horizSatuan"
-              type="number"
-              placeholder="Satuan.."
+            <b-form-select
+              id="daftarSatuan"
+              :plain="true"
+              :options="satuans"
+              v-model="selected_satuan"
+              @change="changeSatuan(selected_satuan)"
             />
           </b-form-group>
           <b-form-group
@@ -121,9 +122,19 @@ export default {
       },
       alertTime         : 5,
       alertCountDown    : 0,
+      satuans: [],
+      selected_satuan: 1,
     }
   },
   methods: {
+    showSatuans() {
+      axios.get('/api/satuan').then(response => {
+        this.satuans = response.data.satuans.map(satuan => ({ value: satuan.id, text: satuan.nama_satuan }));
+        // console.log(this.satuans);
+      }).catch(err => {
+        console.log(err)
+      })
+    },
     simpan() {
       if(this.produk.nama!=''&&this.produk.kode_produk!=''&&this.produk.satuan!=null
       &&this.produk.nama!=''&&this.produk.harga_beli!=null&&this.produk.harga_jual!=null) {
@@ -143,8 +154,14 @@ export default {
       this.$router.go(-1);
     },
     alertCountDownChanged (alertCountDown) {
-      this.alertCountDown = alertCountDown
+      this.alertCountDown = alertCountDown;
+    },
+    changeSatuan(satuan) {
+      this.produk.satuan=satuan;
     },
   },
+  mounted() {
+    this.showSatuans();
+  }
 }
 </script>
