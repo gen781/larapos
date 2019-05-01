@@ -4,7 +4,7 @@
       <b-col md="6">
         <b-card>
           <div slot="header">
-            <strong>Form</strong> Tambah Pelanggan
+            <strong>Form</strong> Tambah Supplier
           </div>
           <div>
             <b-alert
@@ -21,10 +21,10 @@
             :label-cols="3"
             label="Nama"
             label-for="horizNama"
-            description="Silahkan masukkan nama pelanggan."
+            description="Silahkan masukkan nama supplier."
           >
             <b-form-input
-              v-model="pelanggan.nama"
+              v-model="supplier.nama"
               id="horizNama"
               type="text"
               placeholder="Nama.."
@@ -32,15 +32,15 @@
           </b-form-group>
           <b-form-group
             :label-cols="3"
-            label="No.HP"
-            label-for="horizHP"
-            description="Silahkan masukkan nomor handphone."
+            label="No.Telepon"
+            label-for="horizTelepon"
+            description="Silahkan masukkan nomor telepon."
           >
             <b-form-input
-              v-model="pelanggan.hp"
-              id="horizHP"
+              v-model="supplier.telepon"
+              id="horizTelepon"
               type="text"
-              placeholder="No.HP.."
+              placeholder="No.Telepon.."
             />
           </b-form-group>
           <b-form-group
@@ -50,7 +50,7 @@
             description="Silahkan masukkan alamat."
           >
             <b-form-textarea
-              v-model="pelanggan.alamat"
+              v-model="supplier.alamat"
               id="horizAlamat"
               placeholder="Alamat.."
               rows="4"
@@ -85,9 +85,9 @@ export default {
   name: 'SupplierCreate',
   data () {
     return {
-      pelanggan: {
+      supplier: {
         nama: '',
-        hp: '',
+        telepon: '',
         alamat: ''
       },
       alertTime         : 5,
@@ -96,11 +96,11 @@ export default {
   },
   methods: {
     simpan() {
-      if(this.pelanggan.nama!=''&&this.pelanggan.hp!=''&&this.pelanggan.alamat!=null) {
-        let data = this.pelanggan;
-        axios.post('/api/pelanggan', data).then(response => {
-          // console.log(response.data.pelanggan);
-          this.$router.push({ name: 'Pelanggan' })
+      if(this.supplier.nama!=''&&this.supplier.telepon!=''&&this.supplier.alamat!=null) {
+        let data = this.supplier;
+        axios.post('/api/supplier', data).then(response => {
+          // console.log(response.data.supplier);
+          this.$router.push({ name: 'Supplier' })
         }).catch(err => {
           console.log(err)
         })

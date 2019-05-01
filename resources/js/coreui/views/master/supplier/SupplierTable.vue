@@ -11,7 +11,7 @@
       :bordered="bordered"
       :small="small"
       :fixed="fixed"
-      :items="pelanggans"
+      :items="suppliers"
       :fields="fields"
       :current-page="currentPage"
       :per-page="perPage"
@@ -29,7 +29,7 @@
         slot="action"
         slot-scope="data"
       >
-        <b-button size="sm" variant="warning" :to='"pelanggan/update/"+data.item.id'>
+        <b-button size="sm" variant="warning" :to='"supplier/update/"+data.item.id'>
           <i class="fa fa-edit"></i>
           Ubah
         </b-button>
@@ -43,7 +43,7 @@
     <nav>
       <b-pagination
         v-model="currentPage"
-        :total-rows="getRowCount(pelanggans)"
+        :total-rows="getRowCount(suppliers)"
         :per-page="perPage"
         prev-text="Prev"
         next-text="Next"
@@ -78,14 +78,14 @@ export default {
       type   : Boolean,
       default: false,
     },
-    cariPelanggan: ''
+    cariSupplier: ''
   },
   data: () => {
     return {
-      pelanggans: [],
+      suppliers: [],
       fields: [
         { key: 'nama' },
-        { key: 'hp' },
+        { key: 'telepon' },
         { key: 'alamat' },
         { key: 'action' }
       ],
@@ -95,18 +95,18 @@ export default {
     }
   },
   watch: {
-    cariPelanggan(pelanggan) {
-      this.pelanggans=pelanggan;
+    cariSupplier(supplier) {
+      this.suppliers=supplier;
     }
   },
   methods: {
-    alertHapus(pelanggan) {
-      this.$parent.tampilAlertHapus(pelanggan);
+    alertHapus(supplier) {
+      this.$parent.tampilAlertHapus(supplier);
     },
-    getPelanggans() {
-      axios.get('/api/pelanggan').then(response => {
-        this.pelanggans=response.data.pelanggans;
-        // console.log(this.pelanggans);
+    getSuppliers() {
+      axios.get('/api/supplier').then(response => {
+        this.suppliers=response.data.suppliers;
+        // console.log(this.suppliers);
       }).catch(error => {
         console.log(error);
       });
@@ -119,7 +119,7 @@ export default {
     },
   },
   created() {
-    this.getPelanggans();
+    this.getSuppliers();
   }
 }
 </script>

@@ -39,9 +39,15 @@ Route::group(['middleware' => 'api',], function () {
         Route::get('produk', 'ProdukController@index')->name('produk.index');
         Route::post('produk', 'ProdukController@store')->name('produk.store');
         Route::get('produk/{id}', 'ProdukController@show')->name('produk.show');
-        Route::patch('/produk/{id}', 'ProdukController@update')->name('produk.update');
+        Route::patch('produk/{id}', 'ProdukController@update')->name('produk.update');
         Route::delete('produk/{id}', 'ProdukController@destroy')->name('produk.destroy');
         Route::get('produk/cari/{nama}', 'ProdukController@cari')->name('produk.cari');
         Route::get('satuan', 'SatuanController@index')->name('satuan.index');
+        Route::get('supplier', 'SupplierController@index')->name('supplier.index');
+        Route::post('supplier', 'SupplierController@store')->name('supplier.store');
+        Route::get('supplier/{id}', 'SupplierController@show')->name('supplier.show');
+        Route::patch('supplier/{id}', 'SupplierController@update')->name('supplier.update');
+        Route::delete('supplier/{id}', 'SupplierController@destroy')->name('supplier.destroy');
+        Route::get('supplier/cari/{nama}', 'SupplierController@cari')->name('supplier.cari');
     });
 });

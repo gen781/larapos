@@ -4,16 +4,16 @@
       <b-col md="6">
         <b-card>
           <div slot="header">
-            <strong>Form</strong> Edit Pelanggan
+            <strong>Form</strong> Edit Supplier
           </div>
           <b-form-group
             :label-cols="3"
             label="Nama"
             label-for="horizNama"
-            description="Silahkan masukkan nama pelanggan."
+            description="Silahkan masukkan nama supplier."
           >
             <b-form-input
-              v-model="pelanggan.nama"
+              v-model="supplier.nama"
               id="horizNama"
               type="text"
               placeholder="Nama.."
@@ -21,15 +21,15 @@
           </b-form-group>
           <b-form-group
             :label-cols="3"
-            label="No.HP"
-            label-for="horizHP"
-            description="Silahkan masukkan nomor handphone."
+            label="No.Telepon"
+            label-for="horizTelepon"
+            description="Silahkan masukkan nomor telepon."
           >
             <b-form-input
-              v-model="pelanggan.hp"
-              id="horizHP"
+              v-model="supplier.telepon"
+              id="horizTelepon"
               type="text"
-              placeholder="No.HP.."
+              placeholder="No.Telepon.."
             />
           </b-form-group>
           <b-form-group
@@ -39,7 +39,7 @@
             description="Silahkan masukkan alamat."
           >
             <b-form-textarea
-              v-model="pelanggan.alamat"
+              v-model="supplier.alamat"
               id="horizAlamat"
               placeholder="Alamat.."
               rows="4"
@@ -74,32 +74,32 @@ export default {
   name: 'SupplierUpdate',
   data () {
     return {
-      pelanggan: {}
+      supplier: {}
     }
   },
   watch: {
     '$route' (to, from) {
-      this.showPelanggan();
+      this.showSupplier();
     }
   },
   methods: {
-    showPelanggan() {
-      axios.get('/api/pelanggan/'+this.$route.params.id).then(response => {
-        this.pelanggan = response.data.pelanggan;
-        // console.log(this.pelanggan);
+    showSupplier() {
+      axios.get('/api/supplier/'+this.$route.params.id).then(response => {
+        this.supplier = response.data.supplier;
+        // console.log(this.supplier);
       }).catch(err => {
         console.log(err)
       })
     },
     simpan() {
       let data = {
-        nama: this.pelanggan.nama,
-        hp: this.pelanggan.hp,
-        alamat: this.pelanggan.alamat
+        nama: this.supplier.nama,
+        telepon: this.supplier.telepon,
+        alamat: this.supplier.alamat
       }
-      axios.patch('/api/pelanggan/'+this.pelanggan.id, data).then(response => {
-        // console.log(response.data.pelanggan);
-        this.$router.push({ name: 'Pelanggan' })
+      axios.patch('/api/supplier/'+this.supplier.id, data).then(response => {
+        // console.log(response.data.supplier);
+        this.$router.push({ name: 'Supplier' })
       }).catch(err => {
         console.log(err)
       })
@@ -109,7 +109,7 @@ export default {
     }
   },
   mounted() {
-    this.showPelanggan();
+    this.showSupplier();
   }
 }
 </script>

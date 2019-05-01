@@ -136,8 +136,9 @@ export default {
       })
     },
     simpan() {
-      if(this.produk.nama!=''&&this.produk.kode_produk!=''&&this.produk.satuan!=null
-      &&this.produk.nama!=''&&this.produk.harga_beli!=null&&this.produk.harga_jual!=null) {
+      this.produk.satuan=this.selected_satuan;
+      if(this.produk.kode_produk!=''&&this.produk.satuan!=null&&this.produk.nama!=''
+      &&this.produk.harga_beli!=null&&this.produk.harga_jual!=null) {
         let data = this.produk;
         axios.post('/api/produk', data).then(response => {
           // console.log(response.data.produk);
