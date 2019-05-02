@@ -23,13 +23,46 @@
             fixed
           >
             <template slot="caption">
-              <i class="fa fa-align-justify" /> Daftar Pelanggan
+              <i class="fa fa-align-justify" /> Transaksi Penjualan
               <div class="row">
                 <div class="col-md-4 col-sm-12 mt-2">
+                  <b-form-group
+                    :label-cols="3"
+                    label="Tanggal"
+                    label-for="horizTanggal"
+                  >
+                    <b-form-input
+                      id="horizTanggal"
+                      type="text"
+                      placeholder="Tanggal.."
+                    />
+                  </b-form-group>
+                  <b-form-group
+                    :label-cols="3"
+                    label="Kasir"
+                    label-for="horizKasir"
+                  >
+                    <b-form-input
+                      id="horizKasir"
+                      type="text"
+                      placeholder="Nama kasir.."
+                    />
+                  </b-form-group>
+                   <b-form-group
+                    :label-cols="3"
+                    label="Pelanggan"
+                    label-for="horizPelanggan"
+                  >
+                    <b-form-input
+                      id="horizPelanggan"
+                      type="text"
+                      placeholder="Nama pelanggan.."
+                    />
+                  </b-form-group>
                   <b-input-group>
                     <b-form-input
                       type="text"
-                      placeholder="Cari"
+                      placeholder="Barcode/nama produk"
                       v-model="cariPelanggan"
                     />
                     <b-input-group-append>
@@ -38,17 +71,103 @@
                       </b-input-group-text>
                     </b-input-group-append>
                   </b-input-group>
+                  
                 </div>
-                <div class="col-md-8 col-sm-12">
-                  <b-button
-                    variant="success"
-                    to="pelanggan/create"
-                    size="sm"
-                    class="mt-3 float-right"
+                <div class="col-md-4 col-sm-12 mt-2">
+                  <b-form-group
+                    :label-cols="3"
+                    label="Tanggal"
+                    label-for="horizTanggal"
                   >
-                    <i class="fa fa-plus" />
-                    Tambah Pelanggan
-                  </b-button>
+                    <b-form-input
+                      id="horizTanggal"
+                      type="text"
+                      placeholder="Tanggal.."
+                    />
+                  </b-form-group>
+                  <b-form-group
+                    :label-cols="3"
+                    label="Kasir"
+                    label-for="horizKasir"
+                  >
+                    <b-form-input
+                      id="horizKasir"
+                      type="text"
+                      placeholder="Nama kasir.."
+                    />
+                  </b-form-group>
+                   <b-form-group
+                    :label-cols="3"
+                    label="Pelanggan"
+                    label-for="horizPelanggan"
+                  >
+                    <b-form-input
+                      id="horizPelanggan"
+                      type="text"
+                      placeholder="Nama pelanggan.."
+                    />
+                  </b-form-group>
+                  <b-input-group>
+                    <b-form-input
+                      type="text"
+                      placeholder="Barcode/nama produk"
+                      v-model="cariPelanggan"
+                    />
+                    <b-input-group-append>
+                      <b-input-group-text>
+                        <i class="fa fa-search" />
+                      </b-input-group-text>
+                    </b-input-group-append>
+                  </b-input-group>
+                  
+                </div>
+                <div class="col-md-4 col-sm-12 mt-2">
+                  <b-form-group
+                    :label-cols="3"
+                    label="Tanggal"
+                    label-for="horizTanggal"
+                  >
+                    <b-form-input
+                      id="horizTanggal"
+                      type="text"
+                      placeholder="Tanggal.."
+                    />
+                  </b-form-group>
+                  <b-form-group
+                    :label-cols="3"
+                    label="Kasir"
+                    label-for="horizKasir"
+                  >
+                    <b-form-input
+                      id="horizKasir"
+                      type="text"
+                      placeholder="Nama kasir.."
+                    />
+                  </b-form-group>
+                   <b-form-group
+                    :label-cols="3"
+                    label="Pelanggan"
+                    label-for="horizPelanggan"
+                  >
+                    <b-form-input
+                      id="horizPelanggan"
+                      type="text"
+                      placeholder="Nama pelanggan.."
+                    />
+                  </b-form-group>
+                  <b-input-group>
+                    <b-form-input
+                      type="text"
+                      placeholder="Barcode/nama produk"
+                      v-model="cariPelanggan"
+                    />
+                    <b-input-group-append>
+                      <b-input-group-text>
+                        <i class="fa fa-search" />
+                      </b-input-group-text>
+                    </b-input-group-append>
+                  </b-input-group>
+                  
                 </div>
               </div>
             </template>
