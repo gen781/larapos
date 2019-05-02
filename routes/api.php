@@ -49,5 +49,11 @@ Route::group(['middleware' => 'api',], function () {
         Route::patch('supplier/{id}', 'SupplierController@update')->name('supplier.update');
         Route::delete('supplier/{id}', 'SupplierController@destroy')->name('supplier.destroy');
         Route::get('supplier/cari/{nama}', 'SupplierController@cari')->name('supplier.cari');
+        Route::get('penjualan', 'PenjualanController@index')->name('penjualan.index');
+        Route::post('penjualan', 'PenjualanController@store')->name('penjualan.store');
+        Route::get('penjualan/{id}', 'PenjualanController@show')->name('penjualan.show');
+        Route::patch('penjualan/{id}', 'PenjualanController@update')->name('penjualan.update');
+        Route::delete('penjualan/{id}', 'PenjualanController@destroy')->name('penjualan.destroy');
+        Route::get('penjualan/cari/{nama}', 'PenjualanController@cari')->name('penjualan.cari');
     });
 });

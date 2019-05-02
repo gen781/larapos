@@ -19,14 +19,14 @@ export default {
       },
     },
     {
-      name: 'Pembelian',
-      url : '/master/pembelian',
-      icon: 'icon-action-redo',
+      name: 'Penjualan',
+      url : '/transaksi/penjualan',
+      icon: 'icon-action-undo',
     },
     {
-      name: 'Penjualan',
-      url : '/master/penjualan',
-      icon: 'icon-action-undo',
+      name: 'Pembelian',
+      url : '/transaksi/pembelian',
+      icon: 'icon-action-redo',
     },
     {
       title  : true,

@@ -20,6 +20,9 @@ import sample from './sample'
 // Master route
 import master from './master'
 
+// Transaksi route
+import transaksi from './transaksi'
+
 //vuex store
 import store from '@/store'
 
@@ -38,6 +41,7 @@ const routes = [
         name     : 'Dashboard',
         component: Dashboard,
       },
+      transaksi,
       master,
       ...sample,
     ],
