@@ -1,10 +1,5 @@
 <template>
-  <b-card>
-    <template slot="header">
-      <slot name="caption">
-        Table
-      </slot>
-    </template>
+  <!-- <b-card> -->
     <b-table
       :hover="hover"
       :striped="striped"
@@ -38,7 +33,7 @@
         </b-button>
       </template>
     </b-table>
-    <nav>
+    <!-- <nav>
       <b-pagination
         v-model="currentPage"
         :total-rows="getRowCount(produks)"
@@ -47,8 +42,8 @@
         next-text="Next"
         hide-goto-end-buttons
       />
-    </nav>
-  </b-card>
+    </nav> -->
+  <!-- </b-card> -->
 </template>
 
 <script>
@@ -84,11 +79,11 @@ export default {
       fields: [
         { key: 'kode_produk' },
         { key: 'nama' },
-        { key: 'satuan' },
-        { key: 'harga_beli' },
-        { key: 'harga_jual' },
-        { key: 'stok' },
-        { key: 'action' }
+        { key: 'jumlah' },
+        { key: 'harga' },
+        { key: '%' },
+        { key: 'total' },
+        { key: 'hapus' }
       ],
       currentPage: 1,
       perPage    : 5,

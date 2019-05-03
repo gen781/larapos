@@ -3,175 +3,138 @@
     <div class="animated fadeIn">
       <b-row>
         <b-col sm="12">
-          <div>
-            <b-alert
-              :show="alertCountDown"
-              dismissible
-              variant="success"
-              @dismissed="alertCountDown=0"
-              @dismiss-count-down="alertCountDownChanged"
-            >
-              Pelanggan "{{modalHapus.nama}}" berhasil dihapus!
-            </b-alert>
-          </div>
-          <produk-table
-            :cari-pelanggan="pelanggans"
-            hover
-            striped
-            bordered
-            small
-            fixed
-          >
-            <template slot="caption">
+          <b-card>
+            <div slot="header">
               <i class="fa fa-align-justify" /> Transaksi Penjualan
-              <div class="row">
-                <div class="col-md-4 col-sm-12 mt-2">
-                  <b-form-group
-                    :label-cols="3"
-                    label="Tanggal"
-                    label-for="horizTanggal"
-                  >
-                    <b-form-input
-                      id="horizTanggal"
-                      type="text"
-                      placeholder="Tanggal.."
-                    />
-                  </b-form-group>
-                  <b-form-group
-                    :label-cols="3"
-                    label="Kasir"
-                    label-for="horizKasir"
-                  >
-                    <b-form-input
-                      id="horizKasir"
-                      type="text"
-                      placeholder="Nama kasir.."
-                    />
-                  </b-form-group>
-                   <b-form-group
-                    :label-cols="3"
-                    label="Pelanggan"
-                    label-for="horizPelanggan"
-                  >
-                    <b-form-input
-                      id="horizPelanggan"
-                      type="text"
-                      placeholder="Nama pelanggan.."
-                    />
-                  </b-form-group>
+            </div>
+            <div class="row">
+              <div class="col-md-3 col-sm-12 mt-2">
+                <b-form-group>
                   <b-input-group>
+                    <b-input-group-prepend>
+                      <b-input-group-text><i class="fa fa-check-square" /></b-input-group-text>
+                    </b-input-group-prepend>
                     <b-form-input
                       type="text"
-                      placeholder="Barcode/nama produk"
-                      v-model="cariPelanggan"
+                      placeholder="No. Faktur.."
                     />
-                    <b-input-group-append>
-                      <b-input-group-text>
-                        <i class="fa fa-search" />
-                      </b-input-group-text>
-                    </b-input-group-append>
                   </b-input-group>
-                  
-                </div>
-                <div class="col-md-4 col-sm-12 mt-2">
-                  <b-form-group
-                    :label-cols="3"
-                    label="Tanggal"
-                    label-for="horizTanggal"
-                  >
-                    <b-form-input
-                      id="horizTanggal"
-                      type="text"
-                      placeholder="Tanggal.."
-                    />
-                  </b-form-group>
-                  <b-form-group
-                    :label-cols="3"
-                    label="Kasir"
-                    label-for="horizKasir"
-                  >
-                    <b-form-input
-                      id="horizKasir"
-                      type="text"
-                      placeholder="Nama kasir.."
-                    />
-                  </b-form-group>
-                   <b-form-group
-                    :label-cols="3"
-                    label="Pelanggan"
-                    label-for="horizPelanggan"
-                  >
-                    <b-form-input
-                      id="horizPelanggan"
-                      type="text"
-                      placeholder="Nama pelanggan.."
-                    />
-                  </b-form-group>
-                  <b-input-group>
-                    <b-form-input
-                      type="text"
-                      placeholder="Barcode/nama produk"
-                      v-model="cariPelanggan"
-                    />
-                    <b-input-group-append>
-                      <b-input-group-text>
-                        <i class="fa fa-search" />
-                      </b-input-group-text>
-                    </b-input-group-append>
-                  </b-input-group>
-                  
-                </div>
-                <div class="col-md-4 col-sm-12 mt-2">
-                  <b-form-group
-                    :label-cols="3"
-                    label="Tanggal"
-                    label-for="horizTanggal"
-                  >
-                    <b-form-input
-                      id="horizTanggal"
-                      type="text"
-                      placeholder="Tanggal.."
-                    />
-                  </b-form-group>
-                  <b-form-group
-                    :label-cols="3"
-                    label="Kasir"
-                    label-for="horizKasir"
-                  >
-                    <b-form-input
-                      id="horizKasir"
-                      type="text"
-                      placeholder="Nama kasir.."
-                    />
-                  </b-form-group>
-                   <b-form-group
-                    :label-cols="3"
-                    label="Pelanggan"
-                    label-for="horizPelanggan"
-                  >
-                    <b-form-input
-                      id="horizPelanggan"
-                      type="text"
-                      placeholder="Nama pelanggan.."
-                    />
-                  </b-form-group>
-                  <b-input-group>
-                    <b-form-input
-                      type="text"
-                      placeholder="Barcode/nama produk"
-                      v-model="cariPelanggan"
-                    />
-                    <b-input-group-append>
-                      <b-input-group-text>
-                        <i class="fa fa-search" />
-                      </b-input-group-text>
-                    </b-input-group-append>
-                  </b-input-group>
-                  
-                </div>
+                </b-form-group>                     
               </div>
-            </template>
-          </produk-table>
+              <div class="col-md-3 col-sm-12 mt-2">
+                <b-form-group>
+                  <b-input-group>
+                    <b-input-group-prepend>
+                      <b-input-group-text><i class="fa fa-calendar-check-o" /></b-input-group-text>
+                    </b-input-group-prepend>
+                    <b-form-input
+                      type="text"
+                      placeholder="Tanggal.."
+                    />
+                  </b-input-group>
+                </b-form-group>                  
+              </div>
+              <div class="col-md-3 col-sm-12 mt-2">
+                <b-form-group>
+                  <b-input-group>
+                    <b-input-group-prepend>
+                      <b-input-group-text><i class="fa fa-id-badge" /></b-input-group-text>
+                    </b-input-group-prepend>
+                    <b-form-input
+                      type="text"
+                      placeholder="Kasir.."
+                    />
+                  </b-input-group>
+                </b-form-group>                     
+              </div>
+              <div class="col-md-3 col-sm-12 mt-2">
+                <b-form-group>
+                  <b-input-group>
+                    <b-input-group-prepend>
+                      <b-input-group-text><i class="fa fa-user" /></b-input-group-text>
+                    </b-input-group-prepend>
+                    <b-form-input
+                      type="text"
+                      placeholder="Pelanggan.."
+                    />
+                    <b-input-group-append>
+                      <b-button variant="primary">
+                        <i class="fa fa-plus" />
+                      </b-button>
+                    </b-input-group-append>
+                  </b-input-group>
+                </b-form-group>                     
+              </div>
+              <div class="col-md-12 col-sm-12 mt-2">
+                <b-form-group>
+                  <b-input-group>
+                    <b-input-group-prepend>
+                      <b-input-group-text><i class="fa fa-search" /></b-input-group-text>
+                    </b-input-group-prepend>
+                    <b-form-input
+                      type="text"
+                      placeholder="Barcode/nama produk.."
+                    />
+                    <b-input-group-append>
+                      <b-button variant="primary">
+                        <i class="fa fa-plus" />
+                      </b-button>
+                    </b-input-group-append>
+                  </b-input-group>
+                </b-form-group>
+              </div>
+            </div>
+            <div class="row">
+              <b-col sm="12">
+                <produk-table
+                  hover
+                >
+                </produk-table>
+              </b-col>
+            </div>
+            <div class="row">
+              <b-col sm="12">
+                <div class="float-right">
+                  <b-form-group>
+                  <b-input-group>
+                    <b-input-group-prepend>
+                      <b-input-group-text><i class="fa fa-check-square" /></b-input-group-text>
+                    </b-input-group-prepend>
+                    <b-form-input
+                      readonly
+                      type="text"
+                      placeholder="No. Faktur.."
+                    />
+                  </b-input-group>
+                </b-form-group>   
+                  <b>Sub total</b>
+                  <br>
+                  <b>Diskon</b>
+                  <br>
+                  <b>Pajak</b>
+                  <br>
+                  <b>Total</b>
+                </div>>
+              </b-col>
+            </div>
+            <div slot="footer">
+              <!-- <b-button
+                type="reset"
+                size="sm"
+                variant="danger"
+              >
+                <i class="fa fa-ban" /> Batal
+              </b-button> -->
+              <b-button
+                type="submit"
+                size="lg"
+                variant="success"
+                class="float-right"
+              >
+                Bayar
+              </b-button>
+            </div>
+          </b-card>
         </b-col>
       </b-row>
     </div>
