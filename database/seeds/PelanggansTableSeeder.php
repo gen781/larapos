@@ -14,9 +14,9 @@ class PelanggansTableSeeder extends Seeder
     {
         Pelanggan::insert([
             [
-                'nama'      => 'Antonius',
-                'hp'        => '081375881568',
-                'alamat'    => 'Jl. Marindal Gg. Syukur No.34 - Marindal Satu'
+                'nama'      => 'Umum',
+                'hp'        => '0123456789',
+                'alamat'    => 'Indonesia'
             ]
         ]);
     }

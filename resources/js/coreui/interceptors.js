@@ -25,8 +25,8 @@ export default function interceptorsSetup() {
             axios.post('/api/refresh').then(response => {
                 const { data } = response;
                 isRefreshing = false;
-                onRrefreshed(data.access_token);
-                store.commit('loginUser', data.token);
+                onRrefreshed(data.token);
+                store.commit('loginUser', data);
                 subscribers = [];
             });
           }

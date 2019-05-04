@@ -22,13 +22,21 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         isLoggedIn: !!localStorage.getItem('token'),
-        token: localStorage.getItem('token')
+        token: localStorage.getItem('token'),
+        id_user: localStorage.getItem('id_user'),
+        nama_user: localStorage.getItem('nama_user'),
+        email_user: localStorage.getItem('email_user'),
+        role_user: localStorage.getItem('role_user')
     },
     mutations: {
-        loginUser: (state, token) => {
+        loginUser: (state, data) => {
             state.isLoggedIn = true;
-            state.token = token;
-            localStorage.setItem('token', token);
+            state.token = data.token;
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('id_user', data.user.id);
+            localStorage.setItem('nama_user', data.user.nama);
+            localStorage.setItem('email_user', data.user.email);
+            localStorage.setItem('role_user', data.user.role);
         },
         logoutUser: (state) => {
             state.isLoggedIn = false

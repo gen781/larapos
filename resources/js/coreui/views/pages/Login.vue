@@ -125,7 +125,7 @@ export default {
           password: this.password
         }).then(response => {
             // login user, store the token and redirect to dashboard
-            this.$store.commit('loginUser', response.data.token)
+            this.$store.commit('loginUser', response.data)
             this.$router.push({ name: 'Dashboard' })
         }).catch(error => {
             this.loginError = true

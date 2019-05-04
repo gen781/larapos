@@ -12,9 +12,11 @@
                 <b-form-group>
                   <b-input-group>
                     <b-input-group-prepend>
-                      <b-input-group-text><i class="fa fa-check-square" /></b-input-group-text>
+                      <b-input-group-text>#</b-input-group-text>
                     </b-input-group-prepend>
                     <b-form-input
+                      readonly
+                      v-model="no_faktur"
                       type="text"
                       placeholder="No. Faktur.."
                     />
@@ -28,7 +30,9 @@
                       <b-input-group-text><i class="fa fa-calendar-check-o" /></b-input-group-text>
                     </b-input-group-prepend>
                     <b-form-input
-                      type="text"
+                      readonly
+                      v-model="tgl_sekarang"
+                      type="date"
                       placeholder="Tanggal.."
                     />
                   </b-input-group>
@@ -41,6 +45,8 @@
                       <b-input-group-text><i class="fa fa-id-badge" /></b-input-group-text>
                     </b-input-group-prepend>
                     <b-form-input
+                      readonly
+                      v-model="kasir"
                       type="text"
                       placeholder="Kasir.."
                     />
@@ -53,9 +59,12 @@
                     <b-input-group-prepend>
                       <b-input-group-text><i class="fa fa-user" /></b-input-group-text>
                     </b-input-group-prepend>
-                    <b-form-input
-                      type="text"
-                      placeholder="Pelanggan.."
+                    <b-form-select
+                      id="daftarPelanggan"
+                      :plain="true"
+                      :options="pelanggans"
+                      v-model="selected_pelanggan"
+                      @change="gantiPelanggan(selected_pelanggan)"
                     />
                     <b-input-group-append>
                       <b-button variant="primary">
@@ -72,6 +81,7 @@
                       <b-input-group-text><i class="fa fa-search" /></b-input-group-text>
                     </b-input-group-prepend>
                     <b-form-input
+                      v-model="cariProduk"
                       type="text"
                       placeholder="Barcode/nama produk.."
                     />
@@ -95,18 +105,6 @@
             <div class="row">
               <b-col sm="12">
                 <div class="float-right">
-                  <b-form-group>
-                  <b-input-group>
-                    <b-input-group-prepend>
-                      <b-input-group-text><i class="fa fa-check-square" /></b-input-group-text>
-                    </b-input-group-prepend>
-                    <b-form-input
-                      readonly
-                      type="text"
-                      placeholder="No. Faktur.."
-                    />
-                  </b-input-group>
-                </b-form-group>   
                   <b>Sub total</b>
                   <br>
                   <b>Diskon</b>
@@ -114,7 +112,7 @@
                   <b>Pajak</b>
                   <br>
                   <b>Total</b>
-                </div>>
+                </div>
               </b-col>
             </div>
             <div slot="footer">
@@ -158,8 +156,6 @@ export default {
   components: { ProdukTable },
   data() {
     return {
-      cariPelanggan: '',
-      pelanggans: [],
       modalHapus: {
         show: false,
         nama: '',
@@ -167,52 +163,61 @@ export default {
       },
       alertTime         : 5,
       alertCountDown    : 0,
+      tgl_sekarang: moment(new Date()).format('YYYY-MM-DD'),
+      no_faktur: 'npt-20190504-0001',
+      kasir: this.$store.state.nama_user,
+      pelanggans: [],
+      selected_pelanggan: 1,
+      produks: [],
+      cariProduk: '',
     }
   },
   watch: {
-    cariPelanggan(pelanggan) {
-      this.getPelanggan(pelanggan);
+    cariProduk(produk) {
+      this.getProduk(produk);
     }
   },
   methods: {
+    gantiPelanggan() {
+
+    },
+    tampilPelanggans() {
+      axios.get('/api/pelanggan').then(response => {
+        this.pelanggans = response.data.pelanggans.map(pelanggan => ({ value: pelanggan.id, text: pelanggan.nama }));
+        // console.log(this.pelanggans);
+      }).catch(err => {
+        console.log(err)
+      })
+    },
     tampilAlertHapus(pelanggan) {
       this.modalHapus.show=true;
       this.modalHapus.nama=pelanggan.nama;
       this.modalHapus.id=pelanggan.id;
       // console.log(this.modalHapus)
     },
-    hapuspelanggan(id) {
-      this.modalHapus.show = false;
-      axios.delete('/api/pelanggan/'+id).then(response => {
-        this.getPelanggan('');
-        this.alertCountDown = this.alertTime;
-        // console.log(response);
-      }).catch(err => {
-        console.log(err)
-      })
-    },
-    alertCountDownChanged (alertCountDown) {
-      this.alertCountDown = alertCountDown
-    },
-    getPelanggan(pelanggan) {
-      if(pelanggan!='') {
-        axios.get('/api/pelanggan/cari/'+pelanggan).then(response => {
-          this.pelanggans = response.data.pelanggan;
-          // console.log(this.pelanggans);
+    getProduk(produk) {
+      if(produk!='') {
+        axios.get('/api/produk/cari/'+produk).then(response => {
+          this.produks = response.data.produk;
+          console.log(this.produks);
         }).catch(err => {
           console.log(err)
         })
       } else {
-        axios.get('/api/pelanggan/').then(response => {
-          this.pelanggans = response.data.pelanggans;
-          // console.log(this.pelanggans);
+        axios.get('/api/produk/').then(response => {
+          this.produks = response.data.produks;
+          console.log(this.produks);
         }).catch(err => {
           console.log(err)
         })
       }
+    },
+    alertCountDownChanged (alertCountDown) {
+      this.alertCountDown = alertCountDown
     }
   },
   mounted() {
+    this.tampilPelanggans();
   }
 }
 </script>
