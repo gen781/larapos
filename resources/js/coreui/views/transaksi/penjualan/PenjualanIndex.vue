@@ -80,11 +80,16 @@
                     <b-input-group-prepend>
                       <b-input-group-text><i class="fa fa-search" /></b-input-group-text>
                     </b-input-group-prepend>
-                    <b-form-input
+
+
+                    <b-form-input 
+                      list="daftarProduk"
                       v-model="cariProduk"
-                      type="text"
                       placeholder="Barcode/nama produk.."
-                    />
+                    ></b-form-input>
+                    <datalist id="daftarProduk">
+                      <option v-for="produk in produks">{{ produk.nama }}</option>
+                    </datalist>
                     <b-input-group-append>
                       <b-button variant="primary">
                         <i class="fa fa-plus" />
@@ -198,19 +203,22 @@ export default {
     getProduk(produk) {
       if(produk!='') {
         axios.get('/api/produk/cari/'+produk).then(response => {
-          this.produks = response.data.produk;
-          console.log(this.produks);
+          this.produks = response.data.produk.map(produk => ({ id: produk.id, nama: produk.nama }));
+          // console.log(this.produks);
         }).catch(err => {
           console.log(err)
         })
       } else {
-        axios.get('/api/produk/').then(response => {
-          this.produks = response.data.produks;
-          console.log(this.produks);
+        this.getProduks();
+      }
+    },
+    getProduks() {
+      axios.get('/api/produk/').then(response => {
+          this.produks = response.data.produks.map(produk => ({ id: produk.id, nama: produk.nama }));
+          // console.log(this.produks);
         }).catch(err => {
           console.log(err)
         })
-      }
     },
     alertCountDownChanged (alertCountDown) {
       this.alertCountDown = alertCountDown
@@ -218,6 +226,7 @@ export default {
   },
   mounted() {
     this.tampilPelanggans();
+    this.getProduks();
   }
 }
 </script>
