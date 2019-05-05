@@ -15,7 +15,6 @@
             }).catch(error => {
                 console.log(error)
             });
-            localStorage.removeItem('token')
             this.$store.commit('logoutUser')
             this.$router.push({ name: 'Login' })
         }

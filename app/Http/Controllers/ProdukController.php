@@ -185,9 +185,9 @@ class ProdukController extends Controller
         }
     }
 
-    public function cari($nama)
+    public function cari($cari)
     {
-        $produk = Produk::with('satuan')->where('nama', 'ILIKE', "%{$nama}%")->get();
+        $produk = Produk::with('satuan')->where('nama', 'ILIKE', "%{$cari}%")->orWhere('kode_produk', 'ILIKE', "%{$cari}%")->get();
         $produk->view_produks = [
             'href' => '/api/produk',
             'method' => 'GET'

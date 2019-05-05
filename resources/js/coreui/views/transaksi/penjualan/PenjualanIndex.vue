@@ -80,15 +80,20 @@
                     <b-input-group-prepend>
                       <b-input-group-text><i class="fa fa-search" /></b-input-group-text>
                     </b-input-group-prepend>
-
-
                     <b-form-input 
+                      id="selectedProduk"
                       list="daftarProduk"
                       v-model="cariProduk"
                       placeholder="Barcode/nama produk.."
+                      @change="masukkanProduk"
                     ></b-form-input>
                     <datalist id="daftarProduk">
-                      <option v-for="produk in produks">{{ produk.nama }}</option>
+                      <option 
+                        v-for="produk in produks" 
+                        :data-value="produk.value"  
+                        :value="produk.text"
+                      >
+                      </option>
                     </datalist>
                     <b-input-group-append>
                       <b-button variant="primary">
@@ -173,8 +178,10 @@ export default {
       kasir: this.$store.state.nama_user,
       pelanggans: [],
       selected_pelanggan: 1,
+      produk:'',
       produks: [],
       cariProduk: '',
+      selected_produk:''
     }
   },
   watch: {
@@ -185,6 +192,12 @@ export default {
   methods: {
     gantiPelanggan() {
 
+    },
+    masukkanProduk() {
+      let value = $('#selectedProduk').val();
+      let selectedProdukId = $('#daftarProduk [value="' + value + '"]').data('value');
+      console.log(selectedProdukId);
+      this.cariProduk='';
     },
     tampilPelanggans() {
       axios.get('/api/pelanggan').then(response => {
@@ -203,7 +216,7 @@ export default {
     getProduk(produk) {
       if(produk!='') {
         axios.get('/api/produk/cari/'+produk).then(response => {
-          this.produks = response.data.produk.map(produk => ({ id: produk.id, nama: produk.nama }));
+          this.produks = response.data.produk.map(produk => ({ value: produk.id, text: produk.kode_produk+" - "+produk.nama }));
           // console.log(this.produks);
         }).catch(err => {
           console.log(err)
@@ -214,7 +227,7 @@ export default {
     },
     getProduks() {
       axios.get('/api/produk/').then(response => {
-          this.produks = response.data.produks.map(produk => ({ id: produk.id, nama: produk.nama }));
+          this.produks = response.data.produks.map(produk => ({ value: produk.id, text: produk.kode_produk+" - "+produk.nama }));
           // console.log(this.produks);
         }).catch(err => {
           console.log(err)

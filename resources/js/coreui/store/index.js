@@ -39,7 +39,8 @@ export default new Vuex.Store({
             localStorage.setItem('role_user', data.user.role);
         },
         logoutUser: (state) => {
-            state.isLoggedIn = false
+            state.isLoggedIn = false;
+            localStorage.clear();
         },
     }
 })
