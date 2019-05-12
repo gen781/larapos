@@ -25,6 +25,32 @@
         </b-button>
       </template>
       <template
+        slot="harga"
+        slot-scope="data"
+      >
+        {{ formatAngka(data.item.harga) }}
+      </template>
+      <template
+        slot="diskon"
+        slot-scope="data"
+      > 
+        <b-input
+          v-model="keranjang_produks[data.index].diskon"
+          type="number"
+          class="col-xs-2"
+        />
+        <!-- {{ data.item.diskon }}&nbsp;
+        <b-button size="sm" variant="primary" @click="tambahDiskon(data.index)">
+          <i class="fa fa-edit"></i>
+        </b-button> -->
+      </template>
+      <template
+        slot="total"
+        slot-scope="data"
+      >
+        {{ formatAngka(data.item.total) }}
+      </template>
+      <template
         slot="hapus"
         slot-scope="data"
       >
@@ -82,7 +108,7 @@ export default {
         { key: 'nama' },
         { key: 'jumlah' },
         { key: 'harga', label: 'Harga (Rp.)' },
-        { key: 'diskon', label: 'Diskon (%)' },
+        { key: 'diskon', label: 'Diskon (%)', thStyle: {width: '100px !important'} },
         { key: 'total', label: 'Total (Rp.)'},
         { key: 'hapus' }
       ],
@@ -97,6 +123,9 @@ export default {
     }
   },
   methods: {
+    formatAngka(angka) {
+      return angka.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+    },
     tambahiJumlah(index) {
       this.keranjangProduk[index].jumlah += 1;
       let jumlah = this.keranjangProduk[index].jumlah;

@@ -116,13 +116,13 @@
             <div class="row">
               <b-col sm="12">
                 <div class="float-right">
-                  <b>Sub total: Rp.{{ subTotal }}</b>
+                  <b>Sub total: Rp.{{ formatAngka(subTotal) }}</b>
                   <br>
                   <b>Diskon: {{ total_diskon }}%</b>
                   <br>
                   <b>Pajak: {{ pajak }}%</b>
                   <br>
-                  <b>Total: Rp.{{ grandTotal }}</b>
+                  <b>Total: Rp.{{ formatAngka(grandTotal) }}</b>
                 </div>
               </b-col>
             </div>
@@ -209,6 +209,9 @@ export default {
   methods: {
     gantiPelanggan() {
 
+    },
+    formatAngka(angka) {
+      return angka.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
     },
     masukkanProduk() {
       let value = $('#selectedProduk').val();

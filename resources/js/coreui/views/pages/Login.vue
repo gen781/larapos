@@ -26,6 +26,7 @@
                     type="text"
                     class="form-control"
                     placeholder="Email"
+                    @keyup.enter="submit"
                   />
                   <b-form-invalid-feedback>
                     Required
@@ -43,6 +44,7 @@
                     type="password"
                     class="form-control"
                     placeholder="Password"
+                    @keyup.enter="submit"
                   />
                   <b-form-invalid-feedback>
                     Required
