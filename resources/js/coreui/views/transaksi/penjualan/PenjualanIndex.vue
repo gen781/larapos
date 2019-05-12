@@ -107,6 +107,7 @@
             <div class="row">
               <b-col sm="12">
                 <produk-table
+                  :keranjang-produk="keranjang_produk"
                   hover
                 >
                 </produk-table>
@@ -115,13 +116,13 @@
             <div class="row">
               <b-col sm="12">
                 <div class="float-right">
-                  <b>Sub total</b>
+                  <b>Sub total: Rp.{{ subTotal }}</b>
                   <br>
-                  <b>Diskon</b>
+                  <b>Diskon: {{ total_diskon }}%</b>
                   <br>
-                  <b>Pajak</b>
+                  <b>Pajak: {{ pajak }}%</b>
                   <br>
-                  <b>Total</b>
+                  <b>Total: Rp.{{ grandTotal }}</b>
                 </div>
               </b-col>
             </div>
@@ -180,13 +181,29 @@ export default {
       selected_pelanggan: 1,
       produk:'',
       produks: [],
+      original_produks: [],
       cariProduk: '',
-      selected_produk:''
+      keranjang_produk: [],
+      total_diskon: 0,
+      pajak: 0,
     }
   },
   watch: {
     cariProduk(produk) {
       this.getProduk(produk);
+    }
+  },
+  computed: {
+    subTotal() {
+      var subTotal=0;
+      for(var i=0; i<this.keranjang_produk.length; i++) {
+        subTotal+=this.keranjang_produk[i].total
+      }
+      return subTotal;
+    },
+    grandTotal() {
+      var grandTotal=this.subTotal+this.total_diskon+this.pajak;
+      return grandTotal;
     }
   },
   methods: {
@@ -195,8 +212,18 @@ export default {
     },
     masukkanProduk() {
       let value = $('#selectedProduk').val();
-      let selectedProdukId = $('#daftarProduk [value="' + value + '"]').data('value');
-      console.log(selectedProdukId);
+      let selectedProdukId = $('#daftarProduk [value="' + value + '"]').data('value')
+      // console.log(selectedProdukId);
+      let itemProduk = this.original_produks.filter( newItem => newItem.id === selectedProdukId );
+      let cekKeranjang = this.keranjang_produk.filter( newItem => newItem.id === selectedProdukId );
+      if(cekKeranjang.length==0) {
+        this.keranjang_produk.push(itemProduk[0]);
+      } else {
+        let index = this.keranjang_produk.indexOf(cekKeranjang[0]);
+        this.keranjang_produk[index].jumlah+=1;
+        this.keranjang_produk[index].total=this.keranjang_produk[index].jumlah*this.keranjang_produk[index].harga;
+      }
+      // console.log(itemProduk);
       this.cariProduk='';
     },
     tampilPelanggans() {
@@ -227,8 +254,17 @@ export default {
     },
     getProduks() {
       axios.get('/api/produk/').then(response => {
+          this.original_produks = response.data.produks.map(produk => ({ 
+            id: produk.id, 
+            kode_produk: produk.kode_produk,
+            nama: produk.nama,
+            jumlah: 1,
+            harga: produk.harga_jual,
+            diskon: 0,
+            total: produk.harga_jual
+          }));
           this.produks = response.data.produks.map(produk => ({ value: produk.id, text: produk.kode_produk+" - "+produk.nama }));
-          // console.log(this.produks);
+          // console.log(this.original_produks);
         }).catch(err => {
           console.log(err)
         })

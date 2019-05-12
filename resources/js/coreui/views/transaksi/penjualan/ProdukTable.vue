@@ -6,28 +6,29 @@
       :bordered="bordered"
       :small="small"
       :fixed="fixed"
-      :items="produks"
+      :items="keranjang_produks"
       :fields="fields"
       :current-page="currentPage"
       :per-page="perPage"
       responsive="sm"
     >
       <template
-        slot="satuan"
+        slot="jumlah"
         slot-scope="data"
       >
-        {{ data.item.satuan.nama_satuan }}
+        <b-button size="sm" variant="success" @click="kurangiJumlah(data.index)">
+          <i class="fa fa-minus"></i>
+        </b-button>
+        &nbsp;{{ data.item.jumlah }}&nbsp;
+        <b-button size="sm" variant="success" @click="tambahiJumlah(data.index)">
+          <i class="fa fa-plus"></i>
+        </b-button>
       </template>
       <template
-        slot="action"
+        slot="hapus"
         slot-scope="data"
       >
-        <b-button size="sm" variant="warning" :to='"produk/update/"+data.item.id'>
-          <i class="fa fa-edit"></i>
-          Ubah
-        </b-button>
-
-        <b-button size="sm" variant="danger" @click="alertHapus(data.item)">
+        <b-button size="sm" variant="danger" @click="hapusItem(data.index)">
           <i class="fa fa-trash"></i>
           Hapus
         </b-button>
@@ -36,7 +37,7 @@
     <!-- <nav>
       <b-pagination
         v-model="currentPage"
-        :total-rows="getRowCount(produks)"
+        :total-rows="getRowCount(keranjang_produks)"
         :per-page="perPage"
         prev-text="Prev"
         next-text="Next"
@@ -71,48 +72,57 @@ export default {
       type   : Boolean,
       default: false,
     },
-    cariProduk: ''
+    keranjangProduk: ''
   },
   data: () => {
     return {
-      produks: [],
+      keranjang_produks: [],
       fields: [
         { key: 'kode_produk' },
         { key: 'nama' },
         { key: 'jumlah' },
-        { key: 'harga' },
-        { key: '%' },
-        { key: 'total' },
+        { key: 'harga', label: 'Harga (Rp.)' },
+        { key: 'diskon', label: 'Diskon (%)' },
+        { key: 'total', label: 'Total (Rp.)'},
         { key: 'hapus' }
       ],
       currentPage: 1,
-      perPage    : 5,
+      perPage    : 10,
       totalRows  : 0
     }
   },
   watch: {
-    cariProduk(produk) {
-      this.produks=produk;
+    keranjangProduk(produk) {
+      this.keranjang_produks=produk;
     }
   },
   methods: {
+    tambahiJumlah(index) {
+      this.keranjangProduk[index].jumlah += 1;
+      let jumlah = this.keranjangProduk[index].jumlah;
+      let harga = this.keranjangProduk[index].harga;
+      this.keranjangProduk[index].total = harga*jumlah;
+    },
+    kurangiJumlah(index) {
+      if(this.keranjangProduk[index].jumlah>=2) {
+        this.keranjangProduk[index].jumlah -= 1;
+        let jumlah = this.keranjangProduk[index].jumlah;
+        let harga = this.keranjangProduk[index].harga;
+        this.keranjangProduk[index].total = harga*jumlah;
+      }
+    },
+    hapusItem(index) {
+      this.keranjang_produks.splice(index, 1);
+    },
     alertHapus(produk) {
       this.$parent.tampilAlertHapus(produk);
-    },
-    getProduks() {
-      axios.get('/api/produk').then(response => {
-        this.produks=response.data.produks;
-        // console.log(this.produks);
-      }).catch(error => {
-        console.log(error);
-      });
     },
     getRowCount (items) {
       return items.length
     },
   },
   created() {
-    this.getProduks();
+
   }
 }
 </script>
