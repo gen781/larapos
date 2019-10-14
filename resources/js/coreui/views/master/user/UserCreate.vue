@@ -21,41 +21,51 @@
             :label-cols="3"
             label="Nama"
             label-for="horizNama"
-            description="Silahkan masukkan nama Anda."
           >
             <b-form-input
               v-model="user.nama"
+              :state="$v.user.nama | state"
               id="horizNama"
               type="text"
               placeholder="Nama.."
             />
+            <b-form-invalid-feedback>
+              Nama harus diisi
+            </b-form-invalid-feedback>
           </b-form-group>
           <b-form-group
             :label-cols="3"
             label="Email"
             label-for="horizEmail"
-            description="Silahkan masukkan email Anda."
           >
             <b-form-input
               v-model="user.email"
+              :state="$v.user.email | state"
               id="horizEmail"
               type="email"
               placeholder="Email.."
             />
+            <b-form-invalid-feedback>
+              <span v-if="!$v.user.email.email">Format email tidak sesuai</span>
+              <span v-else>Email harus diisi</span>
+            </b-form-invalid-feedback>
           </b-form-group>
           <b-form-group
             :label-cols="3"
             label="Role"
             label-for="daftarRole"
-            description="Silahkan pilih role Anda."
           >
             <b-form-select
               id="daftarRole"
               :plain="true"
               :options="roles"
               v-model="selected_role"
+              :state="$v.selected_role | state"
               @change="changeRole(selected_role)"
             />
+            <b-form-invalid-feedback>
+              Role harus dipilih
+            </b-form-invalid-feedback>
           </b-form-group>
           <div slot="footer">
             <b-button
@@ -82,6 +92,7 @@
 </template>
 
 <script>
+import { required, email } from 'validators'
 export default {
   name: 'UserCreate',
   data () {
@@ -98,6 +109,16 @@ export default {
       alertCountDown    : 0,
     }
   },
+  validations () {
+    return {
+      user: {
+        email: { required, email },
+        password: { required },
+        nama: { required },
+      },
+      selected_role: { required }
+    }
+  },
   methods: {
     showRoles() {
       axios.get('/api/role').then(response => {
@@ -108,19 +129,18 @@ export default {
       })
     },
     simpan() {
-      if(this.user.nama!=''&&this.user.email!=''&&this.user.role!=null) {
-        let data = this.user;
-        axios.post('/api/user', data).then(response => {
-          // console.log(response.data.user);
-          this.$router.push({ name: 'User' })
-        }).catch(err => {
-          console.log(err)
-        })
-      } else {
-        this.alertCountDown = this.alertTime;
-        // this.$swal('Data belum lengkap', 'Silahkan lengkapi data terlebih dahulu!', 'warning')
-      }
+      this.$v.$touch();
+      if(this.$v.$anyError) return;
+      let data = this.user;
+      axios.post('/api/user', data).then(response => {
+        // console.log(response.data.user);
+        this.$router.push({ name: 'User' })
+      }).catch(err => {
+        console.log(err)
+      })
       
+      // this.alertCountDown = this.alertTime;
+      // this.$swal('Data belum lengkap', 'Silahkan lengkapi data terlebih dahulu!', 'warning')
     },
     changeRole(role) {
       this.user.role=role

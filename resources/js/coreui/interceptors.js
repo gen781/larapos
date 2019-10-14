@@ -21,6 +21,7 @@ export default function interceptorsSetup() {
       
         if (status===401&&store.state.isLoggedIn) {
           if (!isRefreshing) {
+            console.log('Status: ', status)
             isRefreshing = true;
             axios.post('/api/refresh').then(response => {
                 const { data } = response;

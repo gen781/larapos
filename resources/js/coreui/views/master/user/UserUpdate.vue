@@ -10,41 +10,51 @@
             :label-cols="3"
             label="Nama"
             label-for="horizEmail"
-            description="Silahkan masukkan nama Anda."
           >
             <b-form-input
               v-model="user.nama"
+              :state="$v.user.nama | state"
               id="horizEmail"
               type="text"
               placeholder="Nama.."
             />
+            <b-form-invalid-feedback>
+              Nama harus diisi
+            </b-form-invalid-feedback>
           </b-form-group>
           <b-form-group
             :label-cols="3"
             label="Email"
             label-for="horizEmail"
-            description="Silahkan masukkan email Anda."
           >
             <b-form-input
               v-model="user.email"
+              :state="$v.user.email | state"
               id="horizEmail"
               type="email"
               placeholder="Email.."
             />
+            <b-form-invalid-feedback>
+              <span v-if="!$v.user.email.email">Format email tidak sesuai</span>
+              <span v-else>Email harus diisi</span>
+            </b-form-invalid-feedback>
           </b-form-group>
           <b-form-group
             :label-cols="3"
             label="Role"
             label-for="daftarRole"
-            description="Silahkan pilih role Anda."
           >
             <b-form-select
               id="daftarRole"
               :plain="true"
               :options="roles"
               v-model="selected_role"
+              :state="$v.selected_role | state"
               @change="changeRole(selected_role)"
             />
+            <b-form-invalid-feedback>
+              Role harus dipilih
+            </b-form-invalid-feedback>
           </b-form-group>
           <div slot="footer">
             <b-button
@@ -71,13 +81,27 @@
 </template>
 
 <script>
+import { required, email } from 'validators'
 export default {
   name: 'UserUpdate',
   data () {
     return {
-      user: {}, 
+      user: {
+        nama: '',
+        email: '',
+        role: ''
+      }, 
       roles: [],
       selected_role: null,
+    }
+  },
+  validations () {
+    return {
+      user: {
+        email: { required, email },
+        nama: { required },
+      },
+      selected_role: { required }
     }
   },
   watch: {
@@ -104,6 +128,8 @@ export default {
       })
     },
     simpan() {
+      this.$v.$touch();
+      if(this.$v.$anyError) return;
       let data = {
         nama: this.user.nama,
         email: this.user.email,

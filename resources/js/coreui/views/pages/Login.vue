@@ -29,7 +29,8 @@
                     @keyup.enter="submit"
                   />
                   <b-form-invalid-feedback>
-                    Required
+                    <span v-if="!$v.email.email">Format email tidak sesuai</span>
+                    <span v-else>Email harus diisi</span>
                   </b-form-invalid-feedback>
                 </b-input-group>
                 <b-input-group class="mb-4">
@@ -47,7 +48,7 @@
                     @keyup.enter="submit"
                   />
                   <b-form-invalid-feedback>
-                    Required
+                    Password harus diisi
                   </b-form-invalid-feedback>
                 </b-input-group>
                 <b-row>
@@ -57,10 +58,10 @@
                       class="px-4"
                       @click="submit"
                     >
-                      Login
+                      Login 
                     </b-button>
                   </b-col>
-                  <b-col
+                  <!-- <b-col
                     cols="6"
                     class="text-right"
                   >
@@ -70,7 +71,7 @@
                     >
                       Forgot password?
                     </b-button>
-                  </b-col>
+                  </b-col> -->
                 </b-row>
               </b-card-body>
             </b-card>
@@ -81,14 +82,8 @@
             >
               <b-card-body class="text-center">
                 <div>
-                  <h2>Sign up</h2>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                  <b-button
-                    variant="primary"
-                    class="active mt-3"
-                  >
-                    Register Now!
-                  </b-button>
+                  <h2>Larapos</h2>
+                  <p>The realiable Point of Sale System</p>
                 </div>
               </b-card-body>
             </b-card>
@@ -100,7 +95,7 @@
 </template>
 
 <script>
-import { required } from 'validators'
+import { required, email } from 'validators'
 
 export default {
   name: 'Login',
@@ -113,7 +108,7 @@ export default {
   },
   validations () {
     return {
-      email: { required },
+      email: { required, email },
       password: { required },
     }
   },
@@ -121,18 +116,17 @@ export default {
     submit () {
       this.$v.$touch();
       this.loginError = false;
-      if(this.email!=''&&this.password!='') {
-        axios.post('/api/login', {
-          email: this.email,
-          password: this.password
-        }).then(response => {
-            // login user, store the token and redirect to dashboard
-            this.$store.commit('loginUser', response.data)
-            this.$router.push({ name: 'Dashboard' })
-        }).catch(error => {
-            this.loginError = true
-        });
-      }
+      if(this.$v.$anyError) return;
+      axios.post('/api/login', {
+        email: this.email,
+        password: this.password
+      }).then(response => {
+          // login user, store the token and redirect to dashboard
+          this.$store.commit('loginUser', response.data)
+          this.$router.push({ name: 'Dashboard' })
+      }).catch(error => {
+          this.loginError = true
+      });
     },
   },
 }
