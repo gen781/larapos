@@ -26,9 +26,9 @@
               </b-dropdown-item>
             </b-dropdown>
             <h4 class="mb-0">
-              9.823
+              230
             </h4>
-            <p>Members online</p>
+            <p>Total Pelanggan</p>
           </b-card-body>
           <card-line-example1
             class="chart-wrapper px-3"
@@ -63,9 +63,9 @@
               </b-dropdown-item>
             </b-dropdown>
             <h4 class="mb-0">
-              9.823
+              300
             </h4>
-            <p>Members online</p>
+            <p>Total Barang</p>
           </b-card-body>
           <card-line-example2
             class="chart-wrapper px-3"
@@ -99,9 +99,9 @@
               </b-dropdown-item>
             </b-dropdown>
             <h4 class="mb-0">
-              9.823
+              Rp. 7,500,000
             </h4>
-            <p>Members online</p>
+            <p>Total Pembelian</p>
           </b-card-body>
           <card-line-example3
             class="chart-wrapper"
@@ -135,9 +135,9 @@
               </b-dropdown-item>
             </b-dropdown>
             <h4 class="mb-0">
-              9.823
+              Rp. 2,500,000
             </h4>
-            <p>Members online</p>
+            <p>Total Penjualan</p>
           </b-card-body>
           <card-bar-chart-example
             class="chart-wrapper px-3"
@@ -155,10 +155,10 @@
             id="traffic"
             class="card-title mb-0"
           >
-            Traffic
+            Penjualan 30 Hari Terakhir
           </h4>
           <div class="small text-muted">
-            November 2017
+            Oktober 2019
           </div>
         </b-col>
         <b-col

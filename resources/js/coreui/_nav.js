@@ -10,6 +10,57 @@ export default {
       },
     },
     {
+      name    : 'Manajemen User',
+      url     : '/manajemen_user',
+      icon    : 'icon-people',
+      children: [
+        {
+          name: 'User',
+          url : '/manajemen_user/user',
+          icon: 'icon-user',
+        },
+        {
+          name: 'Hak Akses',
+          url : '/manajemen_user/hak_akses',
+          icon: 'icon-briefcase',
+        },
+      ],
+    },
+    {
+      name    : 'Kontak',
+      url     : '/kontak',
+      icon    : 'icon-notebook',
+      children: [
+        {
+          name: 'Pelanggan',
+          url : '/kontak/pelanggan',
+          icon: 'icon-people',
+        },
+        {
+          name: 'Supplier',
+          url : '/kontak/supplier',
+          icon: 'icon-people',
+        },
+      ],
+    },
+    {
+      name    : 'Produk',
+      url     : '/produk',
+      icon    : 'icon-present',
+      children: [
+        {
+          name: 'Daftar Produk',
+          url : '/produk/daftar_produk',
+          icon: 'icon-list',
+        },
+        {
+          name: 'Satuan',
+          url : '/produk/satuan',
+          icon: 'icon-frame',
+        }
+      ],
+    },
+    {
       title  : true,
       name   : 'Transaksi',
       class  : '',
@@ -27,35 +78,6 @@ export default {
       name: 'Pembelian',
       url : '/transaksi/pembelian',
       icon: 'icon-action-redo',
-    },
-    {
-      title  : true,
-      name   : 'Master',
-      class  : '',
-      wrapper: {
-        element   : '',
-        attributes: {},
-      },
-    },
-    {
-      name: 'User',
-      url : '/master/user',
-      icon: 'icon-user',
-    },
-    {
-      name: 'Pelanggan',
-      url : '/master/pelanggan',
-      icon: 'icon-people',
-    },
-    {
-      name: 'Supplier',
-      url : '/master/supplier',
-      icon: 'icon-people',
-    },
-    {
-      name: 'Produk',
-      url : '/master/produk',
-      icon: 'icon-bag',
     },
     // {
     //   title  : true,

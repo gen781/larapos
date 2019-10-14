@@ -17,8 +17,14 @@ import Register from '@/views/pages/Register'
 // Sample route
 import sample from './sample'
 
-// Master route
-import master from './master'
+// Manajemen user route
+import manajemenUser from './manajemen_user'
+
+// Kontak route
+import kontak from './kontak'
+
+// Produk route
+import produk from './produk'
 
 // Transaksi route
 import transaksi from './transaksi'
@@ -41,8 +47,10 @@ const routes = [
         name     : 'Dashboard',
         component: Dashboard,
       },
+      manajemenUser,
+      kontak,
+      produk,
       transaksi,
-      master,
       ...sample,
     ],
   },
