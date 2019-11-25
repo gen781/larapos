@@ -1,13 +1,13 @@
 <template>
   <footer class="app-footer">
     <span>
-      <a href="http://coreui.io">
-        CoreUI
-      </a> &copy; 2018 creativeLabs.
+      <a href="">
+        Larapos
+      </a> &copy; 2018.
     </span>
     <span class="ml-auto">
-      Powered by <a href="http://coreui.io">
-        CoreUI
+      Designed by <a href="http://coreui.io">
+        DijitalCode
       </a>
     </span>
   </footer>

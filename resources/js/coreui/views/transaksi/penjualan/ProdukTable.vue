@@ -35,9 +35,10 @@
         slot-scope="data"
       > 
         <b-input
-          v-model="keranjang_produks[data.index].diskon"
+          v-model="keranjangProduk[data.index].diskon"
           type="number"
           class="col-xs-2"
+          @input="hitungTotal(keranjangProduk[data.index].diskon, data.index)"
         />
         <!-- {{ data.item.diskon }}&nbsp;
         <b-button size="sm" variant="primary" @click="tambahDiskon(data.index)">
@@ -120,9 +121,27 @@ export default {
   watch: {
     keranjangProduk(produk) {
       this.keranjang_produks=produk;
+      console.log(produk);
     }
   },
   methods: {
+    hitungTotal(diskon, index) {
+      var jumlah = this.keranjangProduk[index].jumlah;
+      var harga = this.keranjangProduk[index].harga;
+      if (diskon < 0) {
+        Vue.nextTick(() => {
+          this.keranjangProduk[index].diskon = 0;
+          this.keranjangProduk[index].total = (harga-harga*this.keranjangProduk[index].diskon/100)*jumlah;
+        });
+      } else if (diskon > 100) {
+        Vue.nextTick(() => {
+          this.keranjangProduk[index].diskon = 100;
+          this.keranjangProduk[index].total = (harga-harga*this.keranjangProduk[index].diskon/100)*jumlah;
+        });
+      } else {
+        this.keranjangProduk[index].total = (harga-harga*diskon/100)*jumlah;
+      }
+    },
     formatAngka(angka) {
       return angka.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
     },
@@ -130,14 +149,16 @@ export default {
       this.keranjangProduk[index].jumlah += 1;
       let jumlah = this.keranjangProduk[index].jumlah;
       let harga = this.keranjangProduk[index].harga;
-      this.keranjangProduk[index].total = harga*jumlah;
+      let diskon = this.keranjangProduk[index].diskon;
+      this.keranjangProduk[index].total = (harga-harga*diskon/100)*jumlah;
     },
     kurangiJumlah(index) {
       if(this.keranjangProduk[index].jumlah>=2) {
         this.keranjangProduk[index].jumlah -= 1;
         let jumlah = this.keranjangProduk[index].jumlah;
         let harga = this.keranjangProduk[index].harga;
-        this.keranjangProduk[index].total = harga*jumlah;
+        let diskon = this.keranjangProduk[index].diskon;
+        this.keranjangProduk[index].total = (harga-harga*diskon/100)*jumlah;
       }
     },
     hapusItem(index) {

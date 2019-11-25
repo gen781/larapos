@@ -224,7 +224,10 @@ export default {
       } else {
         let index = this.keranjang_produk.indexOf(cekKeranjang[0]);
         this.keranjang_produk[index].jumlah+=1;
-        this.keranjang_produk[index].total=this.keranjang_produk[index].jumlah*this.keranjang_produk[index].harga;
+        let harga = this.keranjang_produk[index].harga;
+        let diskon = this.keranjang_produk[index].diskon;
+        let jumlah = this.keranjang_produk[index].jumlah;
+        this.keranjang_produk[index].total=(harga-harga*diskon/100)*jumlah;
       }
       // console.log(itemProduk);
       this.cariProduk='';
